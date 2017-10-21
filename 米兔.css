@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    text-align: center;
+    font: 14px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+    color: #333;
+    background-color: #fff;
+    min-width: 1226px;
+}
+a {
+    text-decoration: none;
+}
+#top {
+    background: #333;
+    font-size: 12px;
+}
+#top .top-erzi {
+    background: #333;
+    height: 40px;
+    width: 1226px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#top a {
+    color: #b0b0b0;
+}
+#top .line {
+    margin: 0 .5em;
+    color: #424242;
+}
+
+
+#nav .nav-erzi {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: #FFF;
+    height: 100px;
+    margin: 0 auto;
+    width: 1226px;
+}
+#nav img{
+    width: 55px;
+    height: 55px;
+    background-color: #ff6700;
+    margin-right: 7px;
+}
+#nav .zi {
+    font-size: 16px;
+    width: 850px;
+    padding: 12px 0 0 30px;
+}
+#nav .zi text {
+    padding: 26px 10px 38px;
+    color: #333;
+    cursor: pointer;
+}
+#nav .zi text:hover {
+    color: #ff6700;
+}
+#nav input {
+    width: 223px;
+    height: 48px;
+    outline: 0;
+    padding: 0 10px;
+    border: 1px solid #e0e0e0;
+}
+#nav i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 52px;
+    height: 48px;
+    border: 1px solid #e0e0e0;
+    color: #616161;
+}
+#nav i:hover{
+    background: #ff6700;
+    color: snow;
+}
+
+#title {
+    height: 63px;
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    -webkit-box-shadow: 0px 5px 5px rgba(0,0,0,0.07);
+    box-shadow: 0px 5px 5px rgba(0,0,0,0.07);
+}
+
+#img1 {
+    height: 978px;
+    background: url("http://c1.mifile.cn/f/i/16/chain/mitu/mitu01.jpg") no-repeat center center;
+}
+#img2 {
+    padding-top: 690px;
+    background: url("http://c1.mifile.cn/f/i/16/chain/mitu/mitu02.jpg") no-repeat center 305px;
+}
