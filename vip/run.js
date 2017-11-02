@@ -6,14 +6,6 @@ const bodyParser = require('body-parser')
 
 // 先初始化一个 express 实例
 const app = express()
-
-// 公开文件
-app.use(express.static('web'))
-
-// 设置 bodyParser
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
 const Mer = {
     // 本地 ip
     getLocalIP() {
@@ -32,9 +24,23 @@ const Mer = {
     },
 }
 
+// 公开文件
+app.use(express.static('web'))
+
+// 设置 bodyParser
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
 // 加载
 app.get('/', function(req, res) {
-    res.send('<h1>花开福田</h1>')
+    let path = './data/user_data.json'
+    let data = {
+        'a':'123',
+        'b':'456',
+    }
+    let json =  JSON.stringify(data, null, 2)
+    let err  = fs.writeFileSync(path, json, 'utf8')
+    res.send(fs.readFileSync(path, 'utf8'))
 })
 
 // 404
