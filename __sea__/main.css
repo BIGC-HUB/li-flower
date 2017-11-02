@@ -1,7 +1,0 @@
-@font-face {
-    font-family: 'truetype';
-    src: url('/__sea__/fang.ttf') format('truetype');
-}
-body {
-    font-family: 'truetype' !important;
-}
