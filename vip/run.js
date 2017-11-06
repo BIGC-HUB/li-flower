@@ -11,7 +11,7 @@ const app = express()
 const cors = require('cors')
 // 配置 cors
 app.use(cors({
-    origin: '*',
+    origin: 'http://120.78.146.47',
     // some legacy browsers (IE11, various SmartTVs) choke on 204
     optionsSuccessStatus: 200,
 }))
