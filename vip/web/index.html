@@ -6,22 +6,63 @@
 </head>
 <body>
 
-<script src="https://bigc.cc/mer/js/ku/jquery.min.js?v=3.2.1" charset="utf-8"></script>
-<script src="https://bigc.cc/mer/js/bigsea.js" charset="utf-8"></script>
+<script src="bigsea.js" charset="utf-8"></script>
 <script>
-Sea.Ajax({
-    url: '/load'
+let Ajax = function(request) {
+    let req = {
+         url: request.url,
+         // data 传对象
+         data: JSON.stringify(request.data) || null,
+         method: (request.method || 'POST').toUpperCase(),
+         header: request.header || {},
+         contentType: request.contentType || 'application/json',
+         callback: request.callback,
+     }
+     let r = new XMLHttpRequest()
+     let promise = new Promise(function(success, fail) {
+         r.open(req.method, req.url, true)
+         r.setRequestHeader('Content-Type', req.contentType)
+         for (let key in req.header) {
+             r.setRequestHeader(key, req.header[key])
+         }
+         r.onreadystatechange = function() {
+             if (r.readyState === 4) {
+                 let res = r.response
+                 // 回调函数
+                 if (typeof req.callback === 'function') {
+                     req.callback(res)
+                 }
+                 // Promise 成功
+                 success(res)
+             }
+         }
+         r.onerror = function (err) {
+             fail(err)
+         }
+         if (req.method === 'GET') {
+             r.send()
+         } else {
+             // POST
+             r.send(req.data)
+         }
+     })
+     return promise
+}
+// 读取
+Ajax({
+    url: 'http://192.168.1.108:8001/load'
 }).then(res => {
-    log(res)
+    console.log(res)
 })
-Sea.Ajax({
-    url: '/save',
+// 写入
+Ajax({
+    url: 'http://192.168.1.108:8001/save',
     data: {
         a:1,
         b:2,
     }
 }).then(res => {
-    log(res)
+    console.log(res)
 })
 
 </script>

@@ -6,6 +6,16 @@ const bodyParser = require('body-parser')
 
 // 先初始化一个 express 实例
 const app = express()
+
+// 服务器端配置 引入 cors 模块
+const cors = require('cors')
+// 配置 cors
+app.use(cors({
+    origin: '*',
+    // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200,
+}))
+
 const Mer = {
     // 本地 ip
     getLocalIP() {
