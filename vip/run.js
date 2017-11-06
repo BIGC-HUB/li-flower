@@ -22,6 +22,23 @@ const Mer = {
         }
         return arr[0]
     },
+    // 日期 time
+    time(z) {
+        if (z === undefined) { z = new Date() }
+        let x = z.toString()
+        let zh     = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday','friday', 'saterday']
+        let Year   = x.slice(11,15)
+        let Month  = z.getMonth() + 1
+        let Day    = x.slice(8,10)
+        let Hour   = x.slice(16,18)
+        let Minute = x.slice(19,21)
+        let Second = x.slice(22,24)
+        let Week   = zh[z.getDay()]
+        if (String(Month).length === 1) {
+            Month = '0' + Month
+        }
+        return `${Year}-${Month}-${Day}-${Week}`
+    }
 }
 
 // 公开文件
@@ -31,16 +48,25 @@ app.use(express.static('web'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// 加载
-app.get('/', function(req, res) {
-    let path = './data/user_data.json'
-    let data = {
-        'a':'123',
-        'b':'456',
-    }
-    let json =  JSON.stringify(data, null, 2)
-    let err  = fs.writeFileSync(path, json, 'utf8')
+// 读取
+app.post('/load', function(req, res) {
+    let path = './data/today.json'
     res.send(fs.readFileSync(path, 'utf8'))
+})
+// 写入
+app.post('/save', function(req, res) {
+    let date = Mer.time()
+    let path = `./data/backup/${date}.json`
+    let json =  JSON.stringify(req.body, null, 2)
+    let err  = fs.writeFileSync(path, json, 'utf8')
+    let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
+    if (err && err2) {
+        res.send('写入失败')
+        return;
+    } else {
+        res.send('写入成功')
+        return;
+    }
 })
 
 // 404

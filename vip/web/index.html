@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>后台</title>
+</head>
+<body>
+
+<script src="https://bigc.cc/mer/js/ku/jquery.min.js?v=3.2.1" charset="utf-8"></script>
+<script src="https://bigc.cc/mer/js/bigsea.js" charset="utf-8"></script>
+<script>
+Sea.Ajax({
+    url: '/load'
+}).then(res => {
+    log(res)
+})
+Sea.Ajax({
+    url: '/save',
+    data: {
+        a:1,
+        b:2,
+    }
+}).then(res => {
+    log(res)
+})
+
+</script>
+</body>
+</html>
