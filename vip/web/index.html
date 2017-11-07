@@ -6,90 +6,9 @@
 </head>
 <body>
 
-<style>
-    .wpb_content_element {
-        margin-bottom: 20px;
-    }
-    .vc_row.vc_row-flex {
-        justify-content: flex-end;
-    }
-    .sign-box {
-        width: 385px;
-        margin-right: 10%;
-        margin-left: 10%;
-    }
-    .sign {
-        text-align: center;
-        background: white;
-        padding: 25px;
-        color: #838383;
-    }
-    .sign text.zhuce {
-        display: block;
-        font-size: 28px;
-        color: black;
-        margin-bottom: 28px;
-    }
-    .sign input {
-        height: 40px;
-        border: 1px solid #787878;
-        padding: 5px;
-    }
-    .sign button {
-        background: #141414;
-        color: white;
-        border-radius: 3px;
-        border: 0;
-        height: 40px;
-    }
-    .sign .phone {
-        width: 100%;
-        margin-bottom: 28px;
-    }
-    .sign-sms {
-        margin-bottom: 28px;
-    }
-    .sign-sms input {
-        width: 70%;
-    }
-    .sign-sms button {
-        width: calc(30% - 4px);
-    }
-    .sign-sure {
-        font-size: 12px;
-    }
-    .sign-sure a {
-        text-decoration: underline;
-    }
-    .sign .btn-login {
-        width: 100%;
-        margin: 28px 0;
-    }
-    .sign-up {
-        margin-bottom: 10px;
-    }
-    .sign-up a {
-        color: black;
-        text-decoration: underline;
-    }
-    .sign-sex {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .sign-sex btn {
-        width: 100%;
-        border: 1px solid;
-        height: 36px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .sign-sex span {
-        display: inline-block;
-        width: 10px;
-    }
-    </style>
+<link href="css/common.css" rel="stylesheet"/>
+<link href="css/select2.css" rel="stylesheet"/>
+<link href="css/myself.css" rel="stylesheet"/>
 <div class="sign">
     <text class="zhuce">注册</text>
     <div>
@@ -98,6 +17,11 @@
     <div class="sign-sms">
         <input class="phone-sms" placeholder="输入短信中的验证码" type="text" name="" value="">
         <button type="button" name="button">发送验证码</button>
+    </div>
+    <div class="sign-address">
+        <select id="loc_province"></select>
+        <select id="loc_city"></select>
+        <select id="loc_town"></select>
     </div>
     <div class="sign-sex">
         <btn>男</btn>
@@ -118,6 +42,27 @@
         <a href="/sign-up">立即登陆！</a>
     </div>
 </div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/area.js"></script>
+<script type="text/javascript" src="js/location.js"></script>
+<script type="text/javascript" src="js/select2.js"></script>
+<script type="text/javascript" src="js/select2_locale_zh-CN.js"></script>
+
+<script>
+$('.btn-login').on('click', function() {
+    let d = {
+        '省份': true,
+        '地级市': true,
+        '市、县、区': true,
+    }
+    let province = $('#loc_province').select2('data').text
+    let city = $('#loc_city').select2('data').text
+    let town = $('#loc_town').select2('data').text
+    if (d[province] || d[city] || d[town]) {
+        console.log('地址错误')
+    }
+})
+</script>
 
 <script>
     // let Ajax = function(request) {
