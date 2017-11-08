@@ -49,19 +49,52 @@
 <script type="text/javascript" src="js/select2_locale_zh-CN.js"></script>
 
 <script>
+Sea.form = {}
+$('.sign-sex').on('click', 'btn', function() {
+    $('.sign-sex btn').each(function(i) {
+        this.style = ''
+    })
+    this.style.background = '#141414'
+    this.style.color = 'white'
+    // 性别
+    Sea.form.sex = this.innerText
+})
 $('.btn-login').on('click', function() {
+    let o = Sea.form
     let d = {
         '省份': true,
         '地级市': true,
         '市、县、区': true,
     }
-    let province = $('#loc_province').select2('data').text
-    let city = $('#loc_city').select2('data').text
-    let town = $('#loc_town').select2('data').text
-    if (d[province] || d[city] || d[town]) {
-        console.log('地址错误')
+    o.province = $('#loc_province').select2('data').text
+    o.city = $('#loc_city').select2('data').text
+    o.town = $('#loc_town').select2('data').text
+
+    o.phone = $('.sign .phone').val()
+    o.phone_sms = $('.sign .phone-sms').val()
+    // 表单验证
+    if (d[o.province] || d[o.city] || d[o.town]) {
+        alert('请选择地址')
+        return;
     }
+    if (!o.sex) {
+        alert('请选择性别')
+        return;
+    }
+    if (!o.phone) {
+        alert('请输入手机')
+        return;
+    }
+    if (!o.phone_sms) {
+        alert('请输入验证码')
+        return;
+    }
+    // 发送 跨域 Ajax 请求
+    log(o)
 })
+
+
+
 </script>
 
 <script>
