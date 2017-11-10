@@ -5,18 +5,18 @@
     <title>后台</title>
 </head>
 <body>
-
+<!--
 <link href="css/common.css" rel="stylesheet"/>
 <link href="css/select2.css" rel="stylesheet"/>
 <link href="css/myself.css" rel="stylesheet"/>
 <div class="sign">
     <text class="zhuce">注册</text>
     <div>
-        <input class="phone" placeholder="手机号码" type="text" name="" value="">
+        <input class="phone" maxlength="11" placeholder="手机号码" type="tel" name="" value="">
     </div>
     <div class="sign-sms">
-        <input class="phone-sms" placeholder="输入短信中的验证码" type="text" name="" value="">
-        <button type="button" name="button">发送验证码</button>
+        <input class="phone-sms" maxlength="4" placeholder="输入短信中的验证码" type="tel" name="" value="">
+        <button class="btn-sms" type="button" name="button">发送验证码</button>
     </div>
     <div class="sign-address">
         <select id="loc_province"></select>
@@ -49,7 +49,18 @@
 <script type="text/javascript" src="js/select2_locale_zh-CN.js"></script>
 
 <script>
-Sea.form = {}
+Sea.form = {
+    sms: false,
+}
+$('input.phone, input.phone-sms').on('input', function(e) {
+    let s = ''
+    for (let e of this.value) {
+        if (/\d/.test(e)) {
+            s += e
+        }
+    }
+    this.value = s
+})
 $('.sign-sex').on('click', 'btn', function() {
     $('.sign-sex btn').each(function(i) {
         this.style = ''
@@ -92,68 +103,45 @@ $('.btn-login').on('click', function() {
     // 发送 跨域 Ajax 请求
     log(o)
 })
-
-
-
+$('.btn-sms').on('click', function() {
+    let btn = $(this)
+    let p = $('input.phone')
+    let phone = p.val()
+    if (phone.length === 11) {
+        if (Sea.form.sms === false) {
+            Sea.form.sms = true
+            log('发送Ajax')
+            // 倒计时
+            p.attr("readonly", "readonly")
+            let s = 60
+            let countTime = setInterval(function() {
+                s -= 1
+                btn.text(s)
+                if (s === 0) {
+                    clearInterval(countTime)
+                    btn.text('重新发送')
+                    Sea.form.sms = false
+                    p.removeAttr("readonly")
+                }
+            }, 1000)
+        }
+    } else {
+        p.focus()
+    }
+})
 </script>
-
+-->
+<script src="bigsea.js" charset="utf-8"></script>
 <script>
-    // let Ajax = function(request) {
-    //     let req = {
-    //          url: request.url,
-    //          // data 传对象
-    //          data: JSON.stringify(request.data) || null,
-    //          method: (request.method || 'POST').toUpperCase(),
-    //          header: request.header || {},
-    //          contentType: request.contentType || 'application/json',
-    //          callback: request.callback,
-    //      }
-    //      let r = new XMLHttpRequest()
-    //      let promise = new Promise(function(success, fail) {
-    //          r.open(req.method, req.url, true)
-    //          r.setRequestHeader('Content-Type', req.contentType)
-    //          for (let key in req.header) {
-    //              r.setRequestHeader(key, req.header[key])
-    //          }
-    //          r.onreadystatechange = function() {
-    //              if (r.readyState === 4) {
-    //                  let res = r.response
-    //                  // 回调函数
-    //                  if (typeof req.callback === 'function') {
-    //                      req.callback(res)
-    //                  }
-    //                  // Promise 成功
-    //                  success(res)
-    //              }
-    //          }
-    //          r.onerror = function (err) {
-    //              fail(err)
-    //          }
-    //          if (req.method === 'GET') {
-    //              r.send()
-    //          } else {
-    //              // POST
-    //              r.send(req.data)
-    //          }
-    //      })
-    //      return promise
-    // }
-    // // 读取
-    // Ajax({
-    //     url: 'http://120.78.146.47:8001/load'
-    // }).then(res => {
-    //     console.log(res)
-    // })
-    // // 写入
-    // Ajax({
-    //     url: 'http://120.78.146.47:8001/save',
-    //     data: {
-    //         a:1,
-    //         b:2,
-    //     }
-    // }).then(res => {
-    //     console.log(res)
-    // })
+    // 验证码
+    Sea.Ajax({
+        url: '/user_sms',
+        data: {
+            phone: '18966702120'
+        }
+    }).then(res => {
+        console.log(res)
+    })
 </script>
 </body>
 </html>

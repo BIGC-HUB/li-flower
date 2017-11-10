@@ -3,6 +3,17 @@ const log = console.log.bind(console, '>>>')
 const fs = require('fs')
 const express = require('express')
 const bodyParser = require('body-parser')
+const Alidayu = require('super-alidayu')
+
+const config = {
+    alidayu: {
+        app_key: 'LTAIQGBv2OkqQmQu',
+        secret:  'l3klQs02sshNHGeipDV25KEekoljZ5',
+        sms_free_sign_name: '花开福田生命美学',
+        sms_template_code: 'SMS_108985003'
+    },
+    key: 'li-flower',
+}
 
 // 先初始化一个 express 实例
 const app = express()
@@ -11,7 +22,8 @@ const app = express()
 const cors = require('cors')
 // 配置 cors
 app.use(cors({
-    origin: 'http://120.78.146.47',
+    // origin: 'http://li-flower.com',
+    origin: '*',
     // some legacy browsers (IE11, various SmartTVs) choke on 204
     optionsSuccessStatus: 200,
 }))
@@ -48,8 +60,16 @@ const Mer = {
             Month = '0' + Month
         }
         return `${Year}-${Month}-${Day}-${Week}`
-    }
+    },
+    sms() {
+        return String(parseInt(Math.random()*(10000-1000)+1000))
+    },
+    AlidayuClient: new Alidayu({
+        app_key: config.alidayu.app_key,
+        secret:  config.alidayu.secret
+    }),
 }
+const User = {}
 
 // 公开文件
 app.use(express.static('web'))
@@ -76,6 +96,34 @@ app.post('/save', function(req, res) {
     } else {
         res.send('写入成功')
         return;
+    }
+})
+// 验证码
+app.post('/user_sms', function(req, res) {
+    let phone = req.body.phone
+    let path = './data/today.json'
+    let data = fs.readFileSync(path, 'utf8')
+    if (data[phone]) {
+        res.send({ok:false, message:'已注册，请登录'})
+    } else {
+        User[phone] = {}
+        User[phone].sms = Mer.sms()
+        // 发送短信 promise 方式调用
+        let options = {
+            sms_free_sign_name: config.alidayu.sms_free_sign_name,
+            sms_param: {
+                "number": User[phone].sms
+            },
+            "rec_num": phone,
+            sms_template_code: config.alidayu.sms_template_code
+        }
+        // 花钱的地方来了 take money this
+        Mer.AlidayuClient.sms(options).then(function(data) {
+            res.send({ok:true, message:'短信已发送，请耐心等候'})
+        }).catch(function(err) {
+            delete User[phone]
+            res.send({ok:false, message:'短信发送失败，请联系管理员', err: err})
+        })
     }
 })
 
