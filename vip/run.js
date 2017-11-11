@@ -26,8 +26,8 @@ const app = express()
 const cors = require('cors')
 // 配置 cors
 app.use(cors({
-    // origin: 'http://li-flower.com',
-    origin: '*',
+    origin: 'http://li-flower.com',
+    // origin: '*',
     // some legacy browsers (IE11, various SmartTVs) choke on 204
     optionsSuccessStatus: 200,
 }))
@@ -152,7 +152,7 @@ app.use((err, req, res, next) => {
 })
 
 // listen 函数监听端口
-let server = app.listen(8111, '0.0.0.0', function () {
+let server = app.listen(8110, '0.0.0.0', function () {
     let ip = server.address().address
     if (ip === '0.0.0.0') {
         ip = Mer.getLocalIP()
