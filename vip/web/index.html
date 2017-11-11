@@ -82,7 +82,7 @@ $('.btn-sms').on('click', function() {
             Sea.form.sms = true
             // 验证码
             Sea.Ajax({
-                url: 'http://li-flower.com:8110/user_sms',
+                url: 'http://li-flower.com:8001/user_sms',
                 data: {
                     phone: phone
                 }
@@ -145,11 +145,16 @@ $('.btn-login').on('click', function() {
     }
     // 发送 跨域 Ajax 请求
     Sea.Ajax({
-        url: 'http://li-flower.com:8110/user_login',
+        url: 'http://li-flower.com:8001/user_login',
         // url: '/user_login',
         data: o,
     }).then(res => {
-        log(res)
+        let data = JSON.parse(res)
+        if (data.ok) {
+            alert(data.message)
+        } else {
+            alert(data.message)
+        }
     })
 })
 </script> -->

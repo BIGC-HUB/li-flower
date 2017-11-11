@@ -87,7 +87,7 @@ app.use(bodyParser.json())
 app.post('/user_sms', function(req, res) {
     let phone = req.body.phone
     let path = './data/today.json'
-    let data = fs.readFileSync(path, 'utf8')
+    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (data[phone]) {
         res.send({ok:false, message:'已注册，请登录'})
     } else {
