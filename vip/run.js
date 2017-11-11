@@ -152,7 +152,7 @@ app.use((err, req, res, next) => {
 })
 
 // listen 函数监听端口
-let server = app.listen(8001, '0.0.0.0', function () {
+let server = app.listen(8111, '0.0.0.0', function () {
     let ip = server.address().address
     if (ip === '0.0.0.0') {
         ip = Mer.getLocalIP()
