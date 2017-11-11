@@ -3,15 +3,19 @@ const log = console.log.bind(console, '>>>')
 const fs = require('fs')
 const express = require('express')
 const bodyParser = require('body-parser')
-const Alidayu = require('super-alidayu')
+const SMSClient = require('@alicloud/sms-sdk')
 
 const config = {
-    alidayu: {
-        app_key: 'LTAIQGBv2OkqQmQu',
-        secret:  'l3klQs02sshNHGeipDV25KEekoljZ5',
-        sms_free_sign_name: '花开福田生命美学',
-        sms_template_code: 'SMS_108985003'
+    sms: {
+        accessKeyId: 'LTAIQGBv2OkqQmQu',
+        secretAccessKey: 'l3klQs02sshNHGeipDV25KEekoljZ5',
     },
+    // alidayu: {
+    //     app_key: 'LTAIQGBv2OkqQmQu',
+    //     secret:  'l3klQs02sshNHGeipDV25KEekoljZ5',
+    //     sms_free_sign_name: '花开福田生命美学',
+    //     sms_template_code: 'SMS_108985003'
+    // },
     key: 'li-flower',
 }
 
@@ -64,11 +68,12 @@ const Mer = {
     sms() {
         return String(parseInt(Math.random()*(10000-1000)+1000))
     },
-    AlidayuClient: new Alidayu({
-        app_key: config.alidayu.app_key,
-        secret:  config.alidayu.secret
-    }),
+    smsClient: new SMSClient({
+        accessKeyId: config.sms.accessKeyId,
+        secretAccessKey: config.sms.secretAccessKey,
+    })
 }
+// let smsClient =
 const User = {}
 
 // 公开文件
@@ -108,21 +113,23 @@ app.post('/user_sms', function(req, res) {
     } else {
         User[phone] = {}
         User[phone].sms = Mer.sms()
-        // 发送短信 promise 方式调用
-        let options = {
-            sms_free_sign_name: config.alidayu.sms_free_sign_name,
-            sms_param: {
-                "number": User[phone].sms
-            },
-            "rec_num": phone,
-            sms_template_code: config.alidayu.sms_template_code
-        }
-        // 花钱的地方来了 take money this
-        Mer.AlidayuClient.sms(options).then(function(data) {
-            res.send({ok:true, message:'短信已发送，请耐心等候'})
-        }).catch(function(err) {
+        // 发送短信
+        Mer.smsClient.sendSMS({
+            PhoneNumbers: phone,
+            SignName: '花开福田生命美学',
+            TemplateCode: 'SMS_108985003',
+            TemplateParam: `{"code":"${User[phone].sms}","product":"云通信"}`
+        }).then(function (res) {
+            let {Code}=res
+            if (Code === 'OK') {
+                // 处理返回参数
+                // console.log(res)
+                res.send({ok:true, message:'短信已发送，请耐心等候'})
+            }
+        }, function (err) {
+            // console.log(err)
             delete User[phone]
-            res.send({ok:false, message:'短信发送失败，请联系管理员', err: err})
+            res.send({ok:false, message:'短信发送失败，请联系管理员'})
         })
     }
 })
