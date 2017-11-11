@@ -119,11 +119,10 @@ app.post('/user_sms', function(req, res) {
             SignName: '花开福田生命美学',
             TemplateCode: 'SMS_108985003',
             TemplateParam: `{"code":"${User[phone].sms}","product":"云通信"}`
-        }).then(function (res) {
-            let {Code}=res
+        }).then(function (data) {
+            let {Code} = data
             if (Code === 'OK') {
                 // 处理返回参数
-                // console.log(res)
                 res.send({ok:true, message:'短信已发送，请耐心等候'})
             }
         }, function (err) {
