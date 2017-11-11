@@ -83,26 +83,6 @@ app.use(express.static('web'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// 读取
-app.post('/load', function(req, res) {
-    let path = './data/today.json'
-    res.send(fs.readFileSync(path, 'utf8'))
-})
-// 写入
-app.post('/save', function(req, res) {
-    let date = Mer.time()
-    let path = `./data/backup/${date}.json`
-    let json =  JSON.stringify(req.body, null, 2)
-    let err  = fs.writeFileSync(path, json, 'utf8')
-    let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
-    if (err && err2) {
-        res.send('写入失败')
-        return;
-    } else {
-        res.send('写入成功')
-        return;
-    }
-})
 // 验证码
 app.post('/user_sms', function(req, res) {
     let phone = req.body.phone
@@ -132,6 +112,32 @@ app.post('/user_sms', function(req, res) {
         })
     }
 })
+app.post('/user_login', function(req, res) {
+    let phone = req.body.phone
+    let path = './data/today.json'
+    let users = JSON.parse(fs.readFileSync(path, 'utf8'))
+    if (users[phone]) {
+        res.send({ok:false, message:'已注册，请登录'})
+    } else {
+        if (users[phone].sms = req.body.sms) {
+            let date = Mer.time()
+            users[phone] = req.body
+            let json =  JSON.stringify(users, null, 2)
+            let err  = fs.writeFileSync(`./data/backup/${date}.json`, json, 'utf8')
+            let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
+            if (err && err2) {
+                res.send({ok:false, message:'写入失败'})
+                return;
+            } else {
+                res.send({ok:true, message:'注册成功'})
+                return;
+            }
+        } else {
+            res.send({ok:false, message:'验证码错误'})
+        }
+    }
+})
+
 
 // 404
 app.use((req, res) => {
