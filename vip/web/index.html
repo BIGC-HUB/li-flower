@@ -5,6 +5,7 @@
     <title>后台</title>
 </head>
 <body>
+    <h1>大新闻</h1>
 <!--
 <link href="css/common.css" rel="stylesheet"/>
 <link href="css/select2.css" rel="stylesheet"/>
@@ -49,8 +50,8 @@
 <script type="text/javascript" src="js/select2_locale_zh-CN.js"></script>
 
 17396200129 -->
-<script src="bigsea.js" charset="utf-8"></script>
-<script>
+<!-- <script src="bigsea.js" charset="utf-8"></script> -->
+<!-- <script>
 Sea.form = {
     sms: false,
 }
@@ -81,7 +82,7 @@ $('.btn-sms').on('click', function() {
             Sea.form.sms = true
             // 验证码
             Sea.Ajax({
-                url: 'http://li-flower.com:8111/user_sms',
+                url: 'http://li-flower.com:8110/user_sms',
                 data: {
                     phone: phone
                 }
@@ -144,14 +145,13 @@ $('.btn-login').on('click', function() {
     }
     // 发送 跨域 Ajax 请求
     Sea.Ajax({
-        url: 'http://li-flower.com:8111/user_login',
+        url: 'http://li-flower.com:8110/user_login',
         // url: '/user_login',
         data: o,
     }).then(res => {
         log(res)
     })
 })
-</script>
-
+</script> -->
 </body>
 </html>
