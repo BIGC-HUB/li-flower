@@ -119,7 +119,7 @@ app.post('/user_login', function(req, res) {
     if (users[phone]) {
         res.send({ok:false, message:'已注册，请登录'})
     } else {
-        if (users[phone].sms = req.body.phone_sms) {
+        if (users[phone].sms === req.body.phone_sms) {
             let date = Mer.time()
             users[phone] = req.body
             let json =  JSON.stringify(users, null, 2)
