@@ -51,7 +51,8 @@
 
 17396200129 -->
 <!-- <script src="bigsea.js" charset="utf-8"></script> -->
-<!-- <script>
+<!--
+<script>
 Sea.form = {
     sms: false,
 }
@@ -106,6 +107,7 @@ $('.btn-sms').on('click', function() {
                     }, 1000)
                 } else {
                     alert(data.message)
+                    Sea.form.sms = false
                 }
             })
         }
@@ -149,14 +151,16 @@ $('.btn-login').on('click', function() {
         // url: '/user_login',
         data: o,
     }).then(res => {
-        let data = JSON.parse(res)
-        if (data.ok) {
-            alert(data.message)
-        } else {
-            alert(data.message)
-        }
+        log(res)
+        // let data = JSON.parse(res)
+        // if (data.ok) {
+        //     alert(data.message)
+        // } else {
+        //     alert(data.message)
+        // }
     })
 })
-</script> -->
+</script>
+-->
 </body>
 </html>
