@@ -66,39 +66,81 @@
         <div id="title">
             </div>
 
-        <style id="alert-wx-css">
-            #alert-wx {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                pointer-events: none;
-            }
-            #alert-wx .wx-box {
-                width: 100px;
-                height: 100px;
-                background: red;
-                pointer-events: auto;
-            }
-        </style>
-        <div id="alert-wx">
-            <div class="wx-box">
-                <t>花开福田官方微信</t>
-                <text>扫描二维码，关注花开福田微信公众号</text>
-                <img src="http://li-flower.com/wp-content/uploads/2017/11/wxid.png">
-            </div>
-        </div>
+<style id="alert-wx-css">
+    #alert-wx {
+        display: none;
+        justify-content: center;
+        align-items: center;
 
-        <a href="javascript:void(0)" id="wechat"><img src="wechat.png" style="width: 24px">微信公众号</a>
-        <script>
-            wechat.addEventListener('click', function() {
-                console.log(123)
-            }, false)
-        </script>
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        z-index: 10;
+        pointer-events: none;
+    }
+    #alert-wx .wx-box {
+        position: relative;
+        box-sizing: border-box;
+        width: 383px;
+        height: 450px;
+        background: #FFF;
+        pointer-events: auto;
+        padding: 42px;
+        border-radius: 4px;
+        box-shadow: 0 2px 7px rgba(0,0,0,.2);
+    }
+    #alert-wx .wx-box .qr-code {
+        width: 231px;
+        height: 231px;
+    }
+    #alert-wx .wx-box t {
+        display: block;
+        font-size: 22.23px;
+        color: black;
+    }
+    #alert-wx .wx-box text {
+        display: block;
+        margin-top: 18px;
+        margin-bottom: 44px;
+    }
+    #alert-wx .wx-box .close {
+        cursor: pointer;
+        box-sizing: content-box;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 15px;
+        width: 13px;
+        height: 13px;
+    }
+</style>
+<div id="alert-wx">
+    <div class="wx-box">
+        <t>花开福田官方微信</t>
+        <text>扫描二维码，关注花开福田微信公众号</text>
+        <img class="qr-code" src="http://li-flower.com/wp-content/uploads/2017/11/wxid-1.png">
+        <img class="close" src="http://li-flower.com/wp-content/uploads/2017/11/close.png">
+    </div>
+</div>
+新浪微博<br>
+<a href="javascript:void(0)" id="wechat">
+    <img src="http://li-flower.com/wp-content/uploads/2017/11/wechat.png" style="width: 24px">
+    微信公众号
+</a>
+<script>
+    let _e = function(s) {
+        return document.querySelector(s)
+    }
+    _e('#wechat').addEventListener('click', function() {
+        _e('#alert-wx').style.display = 'flex'
+    }, false)
+    _e('#alert-wx .close').addEventListener('click', function() {
+        _e('#alert-wx').style.display = 'none'
+    }, false)
+</script>
 
         <div id="img1">
             <div class="text-content">
