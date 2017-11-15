@@ -14,8 +14,11 @@ Sea.form = {
 }
 Sea.Ajax({
     // url: 'http://li-flower.com:8001/user_login',
-    url: '/user_login',
-    data: {},
+    url: '/user_sign_in',
+    data: {
+        phone: '18966702120',
+        sms: '1234',
+    },
 }).then(res => {
     log(res)
     // let data = JSON.parse(res)

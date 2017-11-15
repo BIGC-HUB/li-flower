@@ -143,7 +143,7 @@ app.post('/user_sign_in', function(req, res) {
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (users[phone]) {
-        if (User[phone].sign_in_sms == sms) {
+        if (User[phone] && User[phone].sign_in_sms == sms) {
             res.send({ok:true, message:'登陆成功'})
         }
     } else {
