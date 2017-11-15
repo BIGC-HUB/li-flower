@@ -145,6 +145,8 @@ app.post('/user_sign_in', function(req, res) {
     if (users[phone]) {
         if (User[phone] && User[phone].sign_in_sms == sms) {
             res.send({ok:true, message:'登陆成功'})
+        } else {
+            res.send({ok:true, message:'验证码错误'})
         }
     } else {
         res.send({ok:false, message:'未注册'})
