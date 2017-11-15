@@ -15,236 +15,258 @@
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
     <script>
         const log = console.log.bind(console)
+        const Sea = {}
     </script>
 </head>
 <body>
-    <link href="http://li-flower.com/sign-up/css/common.css" rel="stylesheet"/>
-    <link href="http://li-flower.com/sign-up/css/select2.css" rel="stylesheet"/>
-    <link href="http://li-flower.com/sign-up/css/myself.css" rel="stylesheet"/>
-    <style>
-        .jt {
-            width: 10px;
-            height: 10px;
-            background: black;
-            transform: rotate(-45deg);
-            margin-right: 15px;
-        }
-        .jt .jt-white {
-            margin-left: -1px;
-            margin-top: -1px;
-            width: 80%;
-            height: 80%;
-            background: #FFF;
-        }
-        #box {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        #box seahr {
-            display: block;
-            height: 1px;
-            background: #d1d1d1;
-            margin-bottom: 20px;
-        }
-        #box .left {
-            background: white;
-            margin-right: 32px;
-        }
-        #box .head {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 304px;
-            height: 181px;
-        }
-        #box .left btn {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14.8px;
-            height: 52px;
-            background: #d2d2d2;
-        }
-        #box btn text {
-            width: 75%;
-        }
-        #box btn .line {
-            width: 7px;
-            height: 100%;
-            background: #141414;
-        }
-        #box .right {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
 
-            width: 839px;
-            height: 568px;
-            background: white;
-        }
-        #box .right t {
-            margin: 29px 0 36px 0;
-            font-size: 22.23px;
-        }
-    </style>
-    <style>
-        .sign-box {
-            width: 385px;
-            margin-right: 10%;
-            margin-left: 10%;
-        }
-        .sign {
-            text-align: center;
-            background: white;
-            padding: 25px;
-            color: #838383;
-        }
-        .sign .seabox {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-        .sign input {
-            box-sizing: border-box;
-            height: 40px;
-            border: 1px solid #787878;
-            padding: 5px;
-        }
-        .sign button {
-            background: #141414;
-            color: white;
-            border-radius: 3px;
-            border: 0;
-            height: 40px;
-        }
-        .sign .name {
-            margin-bottom: 28px;
-        }
-        .sign-sex {
-            width: 100%;
-            margin-top: 28px;
+<link href="http://li-flower.com/sign-up/css/common.css" rel="stylesheet"/>
+<link href="http://li-flower.com/sign-up/css/select2.css" rel="stylesheet"/>
+<link href="http://li-flower.com/sign-up/css/myself.css" rel="stylesheet"/>
+<style>
+    .jt {
+        width: 10px;
+        height: 10px;
+        background: black;
+        transform: rotate(-45deg);
+        margin-right: 15px;
+    }
+    .jt .jt-white {
+        margin-left: -1px;
+        margin-top: -1px;
+        width: 80%;
+        height: 80%;
+        background: #FFF;
+    }
+    #box {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    #box seahr {
+        display: block;
+        height: 1px;
+        background: #d1d1d1;
+        margin-bottom: 20px;
+    }
+    #box .left {
+        background: white;
+        margin-right: 32px;
+    }
+    #box .head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 304px;
+        height: 181px;
+    }
+    #box .head img {
+        width: 82px;
+        margin-bottom: 27px;
+    }
+    #box .left btn {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14.8px;
+        height: 52px;
+        background: #d2d2d2;
+    }
+    #box btn text {
+        width: 75%;
+    }
+    #box btn .line {
+        width: 7px;
+        height: 100%;
+        background: #141414;
+    }
+    #box .right {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 28px 0;
-        }
-        .sign-sex btn {
-            width: 100%;
-            border: 1px solid;
-            height: 36px;
-            display: flex;
-            justify-content: center !important;
-            align-items: center;
-        }
-        .sign-sex span {
-            display: inline-block;
-            width: 10px;
-        }
-        .sign-address {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .sign-address .select2-container {
-            width: 33.333333%;
-            margin-left: 10px;
-        }
-        .select2-container:first-child {
-            margin-left: 0;
-        }
-        .select2-container .select2-choice {
-            background: white;
-            border-radius: 0;
-            color: #838383;
-            border: 1px solid;
-            height: 36px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .select2-container .select2-choice .select2-arrow {
-            background: white;
-            border-radius: 0;
-            border: 1px solid transparent;
-        }
-        .select2-search input {
-            line-height: initial;
-        }
-        .sign-address, .seabox .name, .sign-sex {
-            width: 351px;
-        }
-        .seabox text {
-            margin-right: 10px;
-            color: black;
-        }
-    </style>
-    <div id="box">
-        <div class="left">
-            <div class="head">
-                <img src="" alt="">
-                <text>18812345678</text>
-            </div>
-            <seahr></seahr>
-            <btn>
-                <div class="line"></div>
-                <text>个人信息</text>
-                <div class="jt">
-                    <div class="jt-white"></div>
-                </div>
-            </btn>
-            <btn>
-                <div class="line"></div>
-                <text>账户安全</text>
-                <div class="jt">
-                    <div class="jt-white"></div>
-                </div>
-            </btn>
+        width: 839px;
+        height: 568px;
+        background: white;
+    }
+    #box .right t {
+        margin: 29px 0 36px 0;
+        font-size: 22.23px;
+    }
+</style>
+<style>
+    .sign-box {
+        width: 385px;
+        margin-right: 10%;
+        margin-left: 10%;
+    }
+    .sign {
+        text-align: center;
+        background: white;
+        padding: 25px;
+        color: #838383;
+    }
+    .sign .seabox {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    .sign input {
+        box-sizing: border-box;
+        height: 40px;
+        border: 1px solid #787878;
+        padding: 5px;
+    }
+    .sign button {
+        background: #141414;
+        color: white;
+        border-radius: 3px;
+        border: 0;
+        height: 40px;
+    }
+    .sign .name {
+        margin-bottom: 28px;
+    }
+    .sign-sex {
+        width: 100%;
+        margin-top: 28px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 28px 0;
+    }
+    .sign-sex btn {
+        width: 100%;
+        border: 1px solid;
+        height: 36px;
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .sign-sex span {
+        display: inline-block;
+        width: 10px;
+    }
+    .sign-address {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .sign-address .select2-container {
+        width: 33.333333%;
+        margin-left: 10px;
+    }
+    .select2-container:first-child {
+        margin-left: 0;
+    }
+    .select2-container .select2-choice {
+        background: white;
+        border-radius: 0;
+        color: #838383;
+        border: 1px solid;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .select2-container .select2-choice .select2-arrow {
+        background: white;
+        border-radius: 0;
+        border: 1px solid transparent;
+    }
+    .select2-search input {
+        line-height: initial;
+    }
+    .sign-address, .seabox .name, .sign-sex {
+        width: 351px;
+    }
+    .seabox text {
+        margin-right: 10px;
+        color: black;
+    }
+</style>
+<div id="box">
+    <div class="left">
+        <div class="head">
+            <img src="http://li-flower.com/wp-content/uploads/2017/11/user_head.png">
+            <text id="u-phone">18812345678</text>
         </div>
-        <div class="right">
-            <t>个人信息</t>
-            <div class="sign">
-                <div class="seabox">
-                    <text>姓名：</text>
-                    <input class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
+        <seahr></seahr>
+        <btn>
+            <div class="line"></div>
+            <text>个人信息</text>
+            <div class="jt">
+                <div class="jt-white"></div>
+            </div>
+        </btn>
+        <btn>
+            <div class="line"></div>
+            <text>账户安全</text>
+            <div class="jt">
+                <div class="jt-white"></div>
+            </div>
+        </btn>
+    </div>
+    <div class="right">
+        <t>个人信息</t>
+        <div class="sign">
+            <div class="seabox">
+                <text>姓名：</text>
+                <input id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
+            </div>
+            <div class="seabox">
+                <text>地址：</text>
+                <div class="sign-address">
+                    <select id="loc_province"></select>
+                    <select id="loc_city"></select>
+                    <select id="loc_town"></select>
                 </div>
-                <div class="seabox">
-                    <text>地址：</text>
-                    <div class="sign-address">
-                        <select id="loc_province"></select>
-                        <select id="loc_city"></select>
-                        <select id="loc_town"></select>
-                    </div>
-                </div>
-                <div class="seabox">
-                    <text>性别：</text>
-                    <div class="sign-sex">
-                        <btn>先生</btn>
-                        <span></span>
-                        <btn>女士</btn>
-                    </div>
+            </div>
+            <div class="seabox">
+                <text>性别：</text>
+                <div id="u-sex" class="sign-sex">
+                    <btn>先生</btn>
+                    <span></span>
+                    <btn>女士</btn>
                 </div>
             </div>
         </div>
     </div>
-    <script src="http://li-flower.com/sign-up/js/area.js"></script>
-    <script src="http://li-flower.com/sign-up/js/location.js"></script>
-    <script src="http://li-flower.com/sign-up/js/select2.js"></script>
-    <script src="http://li-flower.com/sign-up/js/select2_locale_zh-CN.js"></script>
-    <script>
-        $('btn, .line').css('background', 'transparent')
-        $('btn').on('mouseover', function() {
-            let l = $(this).find('.line').add(this)
-            $(this).find('.jt-white').css('background', '#d1d1d1')
-            l.css('background', '')
+</div>
+<script src="http://li-flower.com/sign-up/js/area.js"></script>
+<script src="http://li-flower.com/sign-up/js/location.js"></script>
+<script src="http://li-flower.com/sign-up/js/select2.js"></script>
+<script src="http://li-flower.com/sign-up/js/select2_locale_zh-CN.js"></script>
+
+
+<script>
+    Sea.form = {
+    sms: false,
+    sign_in: false,
+    }
+    $('.left btn,.left  .line').css('background', 'transparent')
+    $('.left btn').on('mouseover', function() {
+        let l = $(this).find('.line').add(this)
+        $(this).find('.jt-white').css('background', '#d1d1d1')
+        l.css('background', '')
+    })
+    $('.left btn').on('mouseout', function() {
+        let l = $(this).find('.line').add(this)
+        $(this).find('.jt-white').css('background', '#FFF')
+        l.css('background', 'transparent')
+    })
+    $('.sign-sex').on('click', 'btn', function() {
+        $('.sign-sex btn').each(function(i) {
+            this.style = ''
         })
-        $('btn').on('mouseout', function() {
-            let l = $(this).find('.line').add(this)
-            $(this).find('.jt-white').css('background', '#FFF')
-            l.css('background', 'transparent')
-        })
-    </script>
+        this.style.background = '#141414'
+        this.style.color = 'white'
+        // 性别
+        Sea.form.sex = this.innerText
+    })
+</script>
 </body>
 </html>
