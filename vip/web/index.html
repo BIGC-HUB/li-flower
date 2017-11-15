@@ -6,5 +6,25 @@
 </head>
 <body>
     <h1>大新闻</h1>
+
+<script src="bigsea.js" charset="utf-8"></script>
+<script>
+Sea.form = {
+    sms: false,
+}
+Sea.Ajax({
+    // url: 'http://li-flower.com:8001/user_login',
+    url: '/user_login',
+    data: {},
+}).then(res => {
+    log(res)
+    // let data = JSON.parse(res)
+    // if (data.ok) {
+    //     alert(data.message)
+    // } else {
+    //     alert(data.message)
+    // }
+})
+</script>
 </body>
 </html>

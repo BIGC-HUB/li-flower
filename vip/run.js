@@ -137,6 +137,47 @@ app.post('/user_login', function(req, res) {
         }
     }
 })
+app.post('/user_sign_in', function(req, res) {
+    let phone = req.body.phone
+    let sms = req.body.sms
+    let path = './data/today.json'
+    let users = JSON.parse(fs.readFileSync(path, 'utf8'))
+    if (users[phone]) {
+        if (User[phone].sign_in_sms == sms) {
+            res.send({ok:true, message:'登陆成功'})
+        }
+    } else {
+        res.send({ok:false, message:'未注册'})
+    }
+})
+app.post('/user_sign_in/sms', function(req, res) {
+    let phone = req.body.phone
+    let path = './data/today.json'
+    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+    if (data[phone]) {
+        User[phone] = {}
+        User[phone].sign_in_sms = Mer.sms()
+        // 发送短信
+        Mer.smsClient.sendSMS({
+            PhoneNumbers: phone,
+            SignName: '花开福田生命美学',
+            TemplateCode: 'SMS_108985003',
+            TemplateParam: `{"code":"${User[phone].sign_in_sms}","product":"云通信"}`
+        }).then(function (data) {
+            let {Code} = data
+            if (Code === 'OK') {
+                // 处理返回参数
+                res.send({ok:true, message:'短信已发送，请耐心等候'})
+            }
+        }, function (err) {
+            // console.log(err)
+            delete User[phone]
+            res.send({ok:false, message:'短信发送失败，请联系管理员'})
+        })
+    } else {
+        res.send({ok:false, message:'未注册'})
+    }
+})
 
 
 // 404
