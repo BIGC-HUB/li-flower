@@ -180,6 +180,21 @@ app.post('/user_sign_in/sms', function(req, res) {
         res.send({ok:false, message:'未注册'})
     }
 })
+app.post('/user_sign_in/sms', function(req, res) {
+    let phone = req.body.phone
+    let sms = req.body.sms
+    let path = './data/today.json'
+    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+    if (data[phone]) {
+        if (sms == User[phone].sign_in_sms) {
+            res.send({ok:true, data:data[phone], message:'登陆成功'})
+        } else {
+            res.send({ok:false, message:'验证码错误'})
+        }
+    } else {
+        res.send({ok:false, message:'未注册'})
+    }
+})
 
 
 // 404
