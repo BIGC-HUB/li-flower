@@ -186,7 +186,7 @@ app.post('/infocenter', function(req, res) {
     let path = './data/today.json'
     let data = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (data[phone]) {
-        if (sms == User[phone].sign_in_sms) {
+        if (User[phone] && User[phone].sign_in_sms == sms) {
             res.send({ok:true, data:data[phone], message:'登陆成功'})
         } else {
             res.send({ok:false, message:'验证码错误'})
