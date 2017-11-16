@@ -6,9 +6,11 @@
             // url: '/user_login',
             data: u,
         }).then(res => {
-            let data = JSON.parse(data)
+            let data = JSON.parse(res)
             if (data.ok) {
                 let o = data.data
+                $('#u-phone').text(o.phone)
+
                 $('#u-name').val(o.name || '')
 
                 $('#loc_province').select2('data').text = o.province
