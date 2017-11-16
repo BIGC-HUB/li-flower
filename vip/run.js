@@ -180,7 +180,7 @@ app.post('/user_sign_in/sms', function(req, res) {
         res.send({ok:false, message:'未注册'})
     }
 })
-app.post('/user_sign_in/sms', function(req, res) {
+app.post('/infocenter', function(req, res) {
     let phone = req.body.phone
     let sms = req.body.sms
     let path = './data/today.json'
