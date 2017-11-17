@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>微信登陆</title>
+</head>
+<body>
+    <h1>微信登陆</h1>
+<script src="https://bigc.cc/mer/js/bigsea.js" charset="utf-8"></script>
+<script src="main.js"></script>
+</body>
+</html>
+
+
+
+
+<script>
+    let wx_sign = function() {
+        if (window.localStorage.state) {
+            let arr = window.location.search.slice(1).split('&')
+            let o = {}
+            for (let e of arr) {
+                let a = e.split('=')
+                let key = a[0]
+                let val = a[1]
+                o[key] = val
+            }
+            if (o.state === window.localStorage.state) {
+                Sea.Ajax({
+                    method: 'get',
+                    url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
+                    search: {
+                        appid: 'wxff4c7994aa0ca9cf',
+                        secret: 'ff5109a8c206163db869cb873f43dea9',
+                        code: o.code,
+                        grant_type: 'authorization_code',
+                    },
+                    jsonp: 'window.jsonp',
+                    callback(res){
+                        log(res)
+                    },
+                })
+            } else {
+                alert('state 错误')
+                window.location = '/sign-in'
+            }
+        } else {
+            alert('error 请登录')
+            window.location = '/sign-in'
+        }
+    }
+    if (window.localStorage.u) {
+        let u = JSON.parse(window.localStorage.u)
+        Sea.Ajax({
+            url: 'http://li-flower.com:8001/infocenter',
+            // url: '/user_login',
+            data: u,
+        }).then(res => {
+            let data = JSON.parse(res)
+            if (data.ok) {
+                let o = data.data
+                $('#u-phone').text(o.phone)
+
+                $('#u-name').val(o.name || '')
+
+                $('#loc_province').select2('data').text = o.province
+                $('#select2-chosen-1').text(o.province)
+                $('#loc_city').select2('data').text = o.city
+                $('#select2-chosen-2').text(o.city)
+                $('#loc_town').select2('data').text = o.town
+                $('#select2-chosen-3').text(o.town)
+
+                $('.sign-sex btn').each(function(i, e) {
+                    if (e.innerText == o.sex) {
+                        this.style.background = '#141414'
+                        this.style.color = 'white'
+                    } else {
+                        this.style = ''
+                    }
+                })
+            } else {
+                wx_sign()
+            }
+        })
+    } else {
+        wx_sign()
+    }
+</script>
