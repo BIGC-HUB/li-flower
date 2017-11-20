@@ -1,19 +1,19 @@
 module.exports = {
-    brage: async function(req) {
+    bridge: async function(req) {
         // client
-        let client = (req.client == 'https') ? require('https') : require('http')
+        const client = (req.client == 'https') ? require('https') : require('http')
         // search
-        let search = Object.keys(req.search)
+        let search = Object.keys(req.search || {})
         if (search.length) {
             let arr = []
-            for (let key of search) {
+            for(let key of search) {
                 let val = req.search[key]
                 arr.push([key, val].join('='))
             }
-            req.options.path += '?' + arr.join('&')
+            req.option.path += '?' + arr.join('&')
         }
-        // req
-        let request = function(options){
+        // request
+        const request = function(options){
             return new Promise(function(success, fail){
                 let req = client.request(options, function(res){
                     let data = []
@@ -30,7 +30,7 @@ module.exports = {
                 req.end()
             })
         }
-        let data = await request(req.options)
-        return data
-    }
+        let data = await request(req.option)
+        return data.toString('utf8')
+    },
 }

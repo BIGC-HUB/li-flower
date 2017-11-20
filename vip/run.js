@@ -201,15 +201,15 @@ app.post('/infocenter', function(req, res) {
 
 
 // 转发请求
-const brage = require('./bigsea_node').brage
-brage({
+const Sea = require('./bigsea_node')
+Sea.bridge({
     client: 'https',
     options: {
         method: 'get',
         hostname: 'api.weixin.qq.com',
         path: '/sns/oauth2/access_token',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
     },
     search: {
