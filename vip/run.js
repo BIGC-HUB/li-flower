@@ -1,63 +1,9 @@
 const log = console.log.bind(console, '>>>')
 // 引入 express 并且创建一个 express 实例赋值给 app
 const fs = require('fs')
-const http = require('http')
+const express = require('express')
 const bodyParser = require('body-parser')
 const SMSClient = require('@alicloud/sms-sdk')
-// 转发请求
-const https = require('https')
-const express = require('express')
-const url = require('url')
-const clientByProtocol = (protocol) => {
-    if (protocol === 'http:') {
-        return http
-    } else {
-        return https
-    }
-}
-const apiOptions = () => {
-    // 从环境变量里获取 apiServer 的值, 尽管这个做法不太好
-    // (因为环境变量里的值相当于全局变量, 而且是无法控制的全局变量)
-    // 但是大家喜欢这样用, 我们也跟着用
-    const envServer = process.env.apiServer
-    // 设置默认 api 服务器地址
-    const defaultServer = 'http://127.0.0.1:4000'
-    const server = envServer || defaultServer
-    // 解析 url 之后的结果
-    const result = url.parse(server)
-    // api 形式的请求通常是 Content-Type: application/json
-    // 提前设置好这部分
-    const obj = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        // https 相关的设置, 为了方便直接设置为 false 就可以了
-        rejectUnauthorized: false,
-    }
-    const options = Object.assign({}, obj, result)
-
-    if (options.href.length > 0) {
-        delete options.href
-    }
-    return options
-}
-const httpOptions = (req) => {
-    // 先获取基本的 api options 设置
-    const baseOptions = apiOptions()
-    // 设置请求的 path
-    const pathOptions = {
-        path: req.originalUrl,
-    }
-    const options = Object.assign({}, baseOptions, pathOptions)
-    // 把浏览器发送的请求的 headers 全部添加到 options 中,
-    // 避免出现漏掉某些关键 headers(如 transfer-encoding, connection 等) 导致出 bug 的情况
-    Object.keys(req.headers).forEach((k) => {
-        options.headers[k] = req.headers[k]
-    })
-    // 设置请求的方法
-    options.method = req.method
-    return options
-}
 
 // 配置
 const config = {
@@ -253,81 +199,68 @@ app.post('/infocenter', function(req, res) {
     }
 })
 
+
 // 转发请求
-app.all('/api/*', (req, response) => {
-    const options = httpOptions(req)
-    log('req options', options)
-    const client = clientByProtocol(options.protocol)
-    // HTTP 请求原始信息
-    /*
-     GET /api/topic/all HTTP/1.1
-     Host: 127.0.0.1:3300
-     Connection: keep-alive
-     Pragma: no-cache
-     Cache-Control: no-cache
-     User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-     Content-Type: application/json
-     Referer: http://127.0.0.1:3300/
-     Accept-Encoding: gzip, deflate, sdch, br
-     Accept-Language: zh-CN,zh;q=0.8,und;q=0.6
-     Cookie: session=eyJ1aWQiOjF9; session.sig=2mRMt3C3rP_tqgUqQ49brX-hL4Y
-     */
-    // http.request 会把数据发送到 api server
-    // http.request 也会返回一个请求对象
-    const r = client.request(options, (res) => {
-        // res.statusCode 是 api server 返回的状态码
-        // 保持 express response 的状态码和 api server 的状态码一致
-        // 避免出现返回 304, 导致 response 出错
-        response.status(res.statusCode)
-        log('debug res', res.headers, res.statusCode)
-        // 回调里的 res 是 api server 返回的响应
-        // 将响应的 headers 原样设置到 response(这个是 express 的 response) 中
-        Object.keys(res.headers).forEach((k) => {
-            const v = res.headers[k]
-            response.setHeader(k, v)
-        })
-
-        // 接收 api server 的响应时, 会触发 data 事件, 作业 2 中用到过这个知识
-        res.on('data', (data) => {
-            // express 的 response 对象是 http 对象的加强版
-            // (其实就是我们自己实现的 socket), 可以调用 http 对象的方法
-            // write 是 http 对象的方法, 服务器用来发送响应数据的
-            log('debug data', data.toString('utf8'))
-            response.write(data)
-        })
-
-        // api server 的数据接收完成后, 会触发 end 事件
-        res.on('end', () => {
-            log('debug end')
-            // api server 发送完数据之后, express 也告诉客户端发送完数据
-            response.end()
-        })
-
-        // 响应发送错误
-        res.on('error', () => {
-            console.error(`error to req: ${req.url}`)
-        })
-    })
-
-    // 发往 api server 的请求遇到问题
-    r.on('error', (error) => {
-        console.error(`请求 api server 遇到问题: ${req.url}`, error)
-    })
-
-    log('debug options method', options.method)
-    if (options.method !== 'GET') {
-        // req.body 是浏览器发送过来的数据,
-        // 如果不是 GET 方法, 说明 req.body 有内容,
-        // 转成 JSON 字符串之后发送到 api server
-        const body = JSON.stringify(req.body)
-        log('debug body', body, typeof body)
-        // 把 body 里的数据发送到 api server
-        r.write(body)
+const url = require('url')
+const http = require('http')
+const https = require('https')
+const brage = async function(req) {
+    // client
+    let client = http
+    if (req.client == 'https') {
+        client = https
     }
+    // search
+    let search = Object.keys(req.search)
+    if (search.length) {
+        let arr = []
+        for (let key of search) {
+            let val = req.search[key]
+            arr.push([key, val].join('='))
+        }
+        req.options.path += '?' + arr.join('&')
+    }
+    // req
+    let request = function(options){
+        return new Promise(function(success, fail){
+            let req = client.request(options, function(res){
+                let data = []
+                res.on('data', function(e){
+                    data.push(e)
+                })
+                res.on('end', function(){
+                    success(data)
+                })
+            })
+            req.on('error', function(err){
+                fail(err)
+            })
+            req.end()
+        })
+    }
+    let data = await request(req.options)
+    log(data)
+    log(JSON.parse(data))
+}
 
-    // 结束发送请求, 类似我们最初讲的 socket.destroy()
-    r.end()
-})
+let req = {
+    client: 'https',
+    options: {
+        method: 'get',
+        hostname: 'api.weixin.qq.com',
+        path: '/sns/oauth2/access_token',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    },
+    search: {
+        appid: 'wxff4c7994aa0ca9cf',
+        secret: 'ff5109a8c206163db869cb873f43dea9',
+        code: "001G3WSQ0zfVi82SZKUQ04SYSQ0G3WSr",
+        grant_type: 'authorization_code',
+    }
+}
+brage(req)
 
 // 404
 app.use((req, res) => {
