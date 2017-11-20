@@ -204,7 +204,7 @@ app.post('/infocenter', function(req, res) {
 const Sea = require('./bigsea_node')
 Sea.bridge({
     client: 'https',
-    options: {
+    option: {
         method: 'get',
         hostname: 'api.weixin.qq.com',
         path: '/sns/oauth2/access_token',
