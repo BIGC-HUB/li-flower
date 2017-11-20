@@ -1,6 +1,6 @@
 
 
-{"access_token":"4_RStpc5jIIUKtopt1VtNeyeJeQh_YcLXWLKa8hV1zh4smt80mLi-wWkn57a6BAm--yF9TNnwnDNzyzGbWQDrUQA","expires_in":7200,"refresh_token":"4_ZW_UCh0NnnT2fbi_B_XwRAnk98xHxx4--SvfgNJLcg9klsOwqeqXacsVmccseKs0-n3gza9uTZii4Ivz1xKOZQ","openid":"oeAUq1SEowuGLUciXOP3cu3pBPyY","scope":"snsapi_login","unionid":"o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"}
+// {"access_token":"4_RStpc5jIIUKtopt1VtNeyeJeQh_YcLXWLKa8hV1zh4smt80mLi-wWkn57a6BAm--yF9TNnwnDNzyzGbWQDrUQA","expires_in":7200,"refresh_token":"4_ZW_UCh0NnnT2fbi_B_XwRAnk98xHxx4--SvfgNJLcg9klsOwqeqXacsVmccseKs0-n3gza9uTZii4Ivz1xKOZQ","openid":"oeAUq1SEowuGLUciXOP3cu3pBPyY","scope":"snsapi_login","unionid":"o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"}
 /*
 http://li-flower.com/infocenter/
 ?code=011C2XM31CcixP1tuJN31iDxM31C2XMx
@@ -11,7 +11,7 @@ https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxff4c7994aa0ca9cf&secre
 
 Sea.Ajax({
     method: 'get',
-    url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
+    url: '/api/api.weixin.qq.com/sns/oauth2/access_token',
     search: {
         appid: 'wxff4c7994aa0ca9cf',
         secret: 'ff5109a8c206163db869cb873f43dea9',
