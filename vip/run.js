@@ -223,6 +223,7 @@ app.post('/wx_api/sign-in', function(req, res) {
     })
 })
 app.post('/wx_api/userinfo', function(req, res) {
+    log(req.body)
     Sea.bridge({
         client: 'https',
         option: {
@@ -238,6 +239,7 @@ app.post('/wx_api/userinfo', function(req, res) {
             access_token: req.body.access_token,
         }
     }).then(json => {
+        log(json)
         res.send(json)
     })
 })
