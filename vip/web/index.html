@@ -27,6 +27,19 @@
                         let data = JSON.parse(res)
                         $('#u-head')[0].src = data.headimgurl
                         $('#u-name')[0].value = data.nickname
+                        $('#u-phone')[0].innerText = data.nickname
+                        let temp = {
+                            '1': '先生',
+                            '2': '女士',
+                        }
+                        $('.sign-sex btn').each(function(i, e) {
+                            if (e.innerText == temp[data.sex]) {
+                                this.style.background = '#141414'
+                                this.style.color = 'white'
+                            } else {
+                                this.style = ''
+                            }
+                        })
                         // 注册
                         // {
                         //     "openid": "oeAUq1SEowuGLUciXOP3cu3pBPyY",
@@ -55,7 +68,6 @@
         let u = JSON.parse(window.localStorage.u)
         Sea.Ajax({
             url: 'http://li-flower.com:8001/infocenter',
-            // url: '/user_login',
             data: u,
         }).then(res => {
             let data = JSON.parse(res)
