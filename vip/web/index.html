@@ -12,8 +12,6 @@
 </html>
 
 
-
-
 <script>
     let wx_sign = function() {
         if (window.localStorage.state) {
@@ -27,7 +25,7 @@
             }
             if (o.state === window.localStorage.state) {
                 Sea.Ajax({
-                    url: '/api',
+                    url: 'http://li-flower.com:8001/wx_api/sign_in',
                     data: {
                         code: o.code,
                     }
