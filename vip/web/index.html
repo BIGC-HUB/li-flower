@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>微信登陆</title>
-</head>
-<body>
-    <h1>微信登陆</h1>
-<script src="https://bigc.cc/mer/js/bigsea.js" charset="utf-8"></script>
-<script src="main.js"></script>
-</body>
-</html>
-
-
 <script>
     let wx_sign = function() {
         if (window.localStorage.state) {
@@ -24,17 +10,28 @@
                 o[key] = val
             }
             if (o.state === window.localStorage.state) {
+                // Sea.Ajax({
+                //     url: 'http://li-flower.com:8001/wx_api/sign_in',
+                //     data: {
+                //         code: o.code,
+                //     }
+                // }).then(res => {
+                //     let data = JSON.parse(res)
+                // })
+            } else {
+                let data = {"access_token":"4_yuFgp8DjGhLLggojJe5OIogHgtq6EKRUXjj68-8AwWECJ2vEB3U7xQR3pmkV0KucF2JLbxoIzP-kTz84EE2sHg","expires_in":7200,"refresh_token":"4__fttW_iohLeEaHKNCptJBQG19dibQe02nd_fKc7oOZPgnX1H_v3LGhS8KGeV9Mclx5pYD0qsXvdMNaBXdy92dg","openid":"oeAUq1SEowuGLUciXOP3cu3pBPyY","scope":"snsapi_login","unionid":"o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"}
                 Sea.Ajax({
-                    url: 'http://li-flower.com:8001/wx_api/sign_in',
+                    method: 'get',
+                    url: 'http://li-flower.com:8001/wx_api/userinfo',
                     data: {
-                        code: o.code,
+                        access_token: data.access_token,
+                        openid: data.openid,
                     }
                 }).then(res => {
                     log(res)
                 })
-            } else {
-                alert('state 错误')
-                window.location = '/sign-in'
+                // alert('state 错误')
+                // window.location = '/sign-in'
             }
         } else {
             alert('error 请登录')

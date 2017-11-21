@@ -222,6 +222,25 @@ app.post('/wx_api/sign-in', function(req, res) {
         res.send(json)
     })
 })
+app.post('/wx_api/userinfo', function(req, res) {
+    Sea.bridge({
+        client: 'https',
+        option: {
+            method: 'get',
+            hostname: 'api.weixin.qq.com',
+            path: 'sns/userinfo',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        },
+        search: {
+            openid: req.body.openid,
+            access_token: req.body.access_token,
+        }
+    }).then(json => {
+        res.send(json)
+    })
+})
 
 // 404
 app.use((req, res) => {
