@@ -229,7 +229,7 @@ app.post('/wx_api/userinfo', function(req, res) {
         option: {
             method: 'get',
             hostname: 'api.weixin.qq.com',
-            path: 'sns/userinfo',
+            path: '/sns/userinfo',
             headers: {
                 'Content-Type': 'application/json',
             },
