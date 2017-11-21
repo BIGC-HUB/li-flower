@@ -13,7 +13,7 @@
 
 
 
-<!--
+
 <script>
     let wx_sign = function() {
         if (window.localStorage.state) {
@@ -27,18 +27,12 @@
             }
             if (o.state === window.localStorage.state) {
                 Sea.Ajax({
-                    method: 'get',
-                    url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
-                    search: {
-                        appid: 'wxff4c7994aa0ca9cf',
-                        secret: 'ff5109a8c206163db869cb873f43dea9',
+                    url: '/api',
+                    data: {
                         code: o.code,
-                        grant_type: 'authorization_code',
-                    },
-                    jsonp: 'window.jsonp',
-                    callback(res){
-                        log(res)
-                    },
+                    }
+                }).then(res => {
+                    log(res)
                 })
             } else {
                 alert('state 错误')
