@@ -10,27 +10,41 @@
                 o[key] = val
             }
             if (o.state === window.localStorage.state) {
-                // Sea.Ajax({
-                //     url: 'http://li-flower.com:8001/wx_api/sign_in',
-                //     data: {
-                //         code: o.code,
-                //     }
-                // }).then(res => {
-                //     let data = JSON.parse(res)
-                // })
-            } else {
-                let data = {"access_token":"4_yuFgp8DjGhLLggojJe5OIogHgtq6EKRUXjj68-8AwWECJ2vEB3U7xQR3pmkV0KucF2JLbxoIzP-kTz84EE2sHg","expires_in":7200,"refresh_token":"4__fttW_iohLeEaHKNCptJBQG19dibQe02nd_fKc7oOZPgnX1H_v3LGhS8KGeV9Mclx5pYD0qsXvdMNaBXdy92dg","openid":"oeAUq1SEowuGLUciXOP3cu3pBPyY","scope":"snsapi_login","unionid":"o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"}
                 Sea.Ajax({
-                    url: 'http://li-flower.com:8001/wx_api/userinfo',
+                    url: 'http://li-flower.com:8001/wx_api/sign_in',
                     data: {
-                        access_token: data.access_token,
-                        openid: data.openid,
+                        code: o.code,
                     }
                 }).then(res => {
-                    log(res)
+                    let data = JSON.parse(res)
+                    Sea.Ajax({
+                        url: 'http://li-flower.com:8001/wx_api/userinfo',
+                        data: {
+                            access_token: data.access_token,
+                            openid: data.openid,
+                        }
+                    }).then(res => {
+                        let data = JSON.parse(res)
+                        $('#u-head')[0].src = data.headimgurl
+                        $('#u-name')[0].value = data.nickname
+                        // 注册
+                        // {
+                        //     "openid": "oeAUq1SEowuGLUciXOP3cu3pBPyY",
+                        //     "nickname": "大海",
+                        //     "sex": 1,
+                        //     "language": "zh_CN",
+                        //     "city": "",
+                        //     "province": "Roma",
+                        //     "country": "IT",
+                        //     "headimgurl": "http:\/\/wx.qlogo.cn\/mmopen\/vi_32\/PiajxSqBRaEIN7ia30FDb9qCLNVZPOIfTuNGkBERlbwVndYERgBiaicOs7iaseobuaNLPNFos41pSNQY6KibFQgJgtZg\/0",
+                        //     "privilege": [],
+                        //     "unionid": "o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"
+                        // }
+                    })
                 })
-                // alert('state 错误')
-                // window.location = '/sign-in'
+            } else {
+                alert('state 错误')
+                window.location = '/sign-in'
             }
         } else {
             alert('error 请登录')
@@ -48,9 +62,7 @@
             if (data.ok) {
                 let o = data.data
                 $('#u-phone').text(o.phone)
-
                 $('#u-name').val(o.name || '')
-
                 $('#loc_province').select2('data').text = o.province
                 $('#select2-chosen-1').text(o.province)
                 $('#loc_city').select2('data').text = o.city
