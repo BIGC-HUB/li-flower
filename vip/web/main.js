@@ -10,15 +10,10 @@ https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxff4c7994aa0ca9cf&secre
 */
 
 Sea.Ajax({
-    method: 'get',
-    url: 'api/sns/oauth2/access_token',
-    search: {
-        appid: 'wxff4c7994aa0ca9cf',
-        secret: 'ff5109a8c206163db869cb873f43dea9',
-        code: "001wiOGq1oeYMm0TgyFq1xHXGq1wiOGt",
-        grant_type: 'authorization_code',
-    },
-    callback(res) {
-        log(res)
-    },
+    url: '/api',
+    data: {
+        code: '021VPSWj2GgEQF0tdnVj2KQiXj2VPSW9',
+    }
+}).then(res => {
+    log(res)
 })

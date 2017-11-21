@@ -4,6 +4,8 @@ const fs = require('fs')
 const express = require('express')
 const bodyParser = require('body-parser')
 const SMSClient = require('@alicloud/sms-sdk')
+// 转发请求
+const Sea = require('./bigsea_node')
 
 // 配置
 const config = {
@@ -199,27 +201,26 @@ app.post('/infocenter', function(req, res) {
     }
 })
 
-
-// 转发请求
-const Sea = require('./bigsea_node')
-Sea.bridge({
-    client: 'https',
-    option: {
-        method: 'get',
-        hostname: 'api.weixin.qq.com',
-        path: '/sns/oauth2/access_token',
-        headers: {
-            'Content-Type': 'application/json',
+app.post('/api', function(req, res) {
+    Sea.bridge({
+        client: 'https',
+        option: {
+            method: 'get',
+            hostname: 'api.weixin.qq.com',
+            path: '/sns/oauth2/access_token',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         },
-    },
-    search: {
-        appid: 'wxff4c7994aa0ca9cf',
-        secret: 'ff5109a8c206163db869cb873f43dea9',
-        code: "001G3WSQ0zfVi82SZKUQ04SYSQ0G3WSr",
-        grant_type: 'authorization_code',
-    }
-}).then(res => {
-    log(res)
+        search: {
+            appid: 'wxff4c7994aa0ca9cf',
+            secret: 'ff5109a8c206163db869cb873f43dea9',
+            code: req.body.code,
+            grant_type: 'authorization_code',
+        }
+    }).then(json => {
+        res.send(json)
+    })
 })
 
 // 404
