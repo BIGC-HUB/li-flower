@@ -17,6 +17,7 @@ $('#u-sms-btn').on('click', function() {
     let p = $('input.phone')
     let phone = p.val()
     if (phone.length === 11) {
+        btn.css('background', '#d2d2d2')
         if (Sea.form.sms === false) {
             Sea.form.sms = true
             // 验证码
@@ -72,6 +73,7 @@ $('.btn-login').on('click', function() {
         Sea.form.sign_in = true
         Sea.Ajax({
             url: 'http://li-flower.com:8001/user_sign_in',
+            // url: '/user_login',
             data: {
                 phone: o.phone,
                 sms: o.phone_sms,
@@ -80,6 +82,8 @@ $('.btn-login').on('click', function() {
             Sea.form.sign_in = false
             let data = JSON.parse(res)
             if (data.ok) {
+                // window.open('/infocenter')
+                localStorage.state = String(parseInt(Math.random()*(10000-1000)+1000))
                 window.localStorage.u = JSON.stringify({
                     phone: o.phone,
                     sms: o.phone_sms,

@@ -26,6 +26,7 @@ $('.btn-sms').on('click', function() {
     let p = $('input.phone')
     let phone = p.val()
     if (phone.length === 11) {
+        btn.css('background', '#d2d2d2')
         if (Sea.form.sms === false) {
             Sea.form.sms = true
             // 验证码
@@ -49,12 +50,14 @@ $('.btn-sms').on('click', function() {
                             clearInterval(countTime)
                             btn.text('重新发送')
                             Sea.form.sms = false
+                            btn.removeAttr('style')
                             p.removeAttr("readonly")
                         }
                     }, 1000)
                 } else {
                     alert(data.message)
                     Sea.form.sms = false
+                    btn.removeAttr('style')
                 }
             })
         }
@@ -108,7 +111,6 @@ $('.btn-login').on('click', function() {
             Sea.form.sign_in = false
             let data = JSON.parse(res)
             if (data.ok) {
-                window.localStorage.state = String(parseInt(Math.random()*(10000-1000)+1000))
                 window.localStorage.u = JSON.stringify({
                     phone: o.phone,
                     sms: o.phone_sms,
