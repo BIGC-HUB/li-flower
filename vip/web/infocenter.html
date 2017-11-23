@@ -1,0 +1,127 @@
+<script>
+Sea.form = {}
+$('.left btn').css('background', 'transparent')
+$('.left .line').css('background', 'transparent')
+$('.left').on('mouseover', 'btn', function() {
+    $(this).css('background', '')
+    $(this).find('.line').css('background', '')
+    $(this).find('.jt-white').css('background', '#d2d2d2')
+})
+$('.left').on('mouseout', 'btn', function() {
+    $(this).css('background', 'transparent')
+    $(this).find('.line').css('background', 'transparent')
+    $(this).find('.jt-white').css('background', '')
+})
+$('.sign-sex').on('click', 'btn', function() {
+    $('.sign-sex btn').each(function(i) {
+        this.style = ''
+    })
+    this.style.background = '#141414'
+    this.style.color = 'white'
+    // 性别
+    Sea.form.sex = this.innerText
+})
+</script>
+
+
+<script>
+let wx_sign = function() {
+    if (window.localStorage.state) {
+        let arr = window.location.search.slice(1).split('&')
+        let o = {}
+        for (let e of arr) {
+            let a = e.split('=')
+            let key = a[0]
+            let val = a[1]
+            o[key] = val
+        }
+        if (o.state === window.localStorage.state) {
+            Sea.Ajax({
+                url: 'http://li-flower.com:8001/wx_api/sign_in',
+                data: {
+                    code: o.code,
+                }
+            }).then(res => {
+                let data = JSON.parse(res)
+                Sea.Ajax({
+                    url: 'http://li-flower.com:8001/wx_api/userinfo',
+                    data: {
+                        access_token: data.access_token,
+                        openid: data.openid,
+                    }
+                }).then(res => {
+                    let data = JSON.parse(res)
+                    $('#u-head')[0].src = data.headimgurl
+                    $('#u-name')[0].value = data.nickname
+                    $('#u-phone')[0].innerText = data.nickname
+                    let temp = {
+                        '1': '先生',
+                        '2': '女士',
+                    }
+                    $('.sign-sex btn').each(function(i, e) {
+                        if (e.innerText == temp[data.sex]) {
+                            this.style.background = '#141414'
+                            this.style.color = 'white'
+                        } else {
+                            this.style = ''
+                        }
+                    })
+                    // 注册
+                    // {
+                    //     "openid": "oeAUq1SEowuGLUciXOP3cu3pBPyY",
+                    //     "nickname": "大海",
+                    //     "sex": 1,
+                    //     "language": "zh_CN",
+                    //     "city": "",
+                    //     "province": "Roma",
+                    //     "country": "IT",
+                    //     "headimgurl": "http:\/\/wx.qlogo.cn\/mmopen\/vi_32\/PiajxSqBRaEIN7ia30FDb9qCLNVZPOIfTuNGkBERlbwVndYERgBiaicOs7iaseobuaNLPNFos41pSNQY6KibFQgJgtZg\/0",
+                    //     "privilege": [],
+                    //     "unionid": "o-S7Z0hD3RZ7Xphthy3GiUSSLHdI"
+                    // }
+                })
+            })
+        } else {
+            alert('state 错误')
+            window.location = '/sign-in'
+        }
+    } else {
+        alert('error 请登录')
+        window.location = '/sign-in'
+    }
+}
+if (window.localStorage.u) {
+        let u = JSON.parse(window.localStorage.u)
+        Sea.Ajax({
+            url: 'http://li-flower.com:8001/infocenter',
+            data: u,
+        }).then(res => {
+            let data = JSON.parse(res)
+            if (data.ok) {
+                let o = data.data
+                Sea.form = Object.assign({}, o, Sea.form)
+                $('#u-phone').text(o.phone)
+                $('#u-name').val(o.name || '')
+                $('#loc_province').select2('data').text = o.province
+                $('#select2-chosen-1').text(o.province)
+                $('#loc_city').select2('data').text = o.city
+                $('#select2-chosen-2').text(o.city)
+                $('#loc_town').select2('data').text = o.town
+                $('#select2-chosen-3').text(o.town)
+
+                $('.sign-sex btn').each(function(i, e) {
+                    if (e.innerText == o.sex) {
+                        this.style.background = '#141414'
+                        this.style.color = 'white'
+                    } else {
+                        this.style = ''
+                    }
+                })
+            } else {
+                wx_sign()
+            }
+        })
+    } else {
+        wx_sign()
+    }
+</script>
