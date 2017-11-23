@@ -122,4 +122,14 @@ $('.btn-login').on('click', function() {
         })
     }
 })
+
+o = {}
+for(let i = 0; i < 100; i++) {
+    let e = Date.now()
+    if (o[e]) {
+        log(e,'错误')
+    } else {
+        o[e] = {}
+    }
+}
 </script>

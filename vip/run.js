@@ -34,6 +34,17 @@ app.use(cors({
 }))
 
 const Mer = {
+    search(key, val) {
+        let path = './data/today.json'
+        let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+        for(let id in data) {
+            let e = data[id]
+            if (e.phone == phone) {
+                return e
+            }
+        }
+        return undefined
+    },
     // 本地 ip
     getLocalIP() {
         let os = require("os")
@@ -145,10 +156,9 @@ app.post('/user_login', function(req, res) {
 app.post('/user_sign_in', function(req, res) {
     let phone = req.body.phone
     let sms = req.body.sms
-    let path = './data/today.json'
-    let users = JSON.parse(fs.readFileSync(path, 'utf8'))
-    if (users[phone]) {
-        if (User[phone] && User[phone].sign_in_sms == sms) {
+    let u = Mer.search('phone', phone)
+    if (u) {
+        if (u.sign_in_sms == sms) {
             res.send({ok:true, message:'登陆成功'})
         } else {
             res.send({ok:true, message:'验证码错误'})
@@ -157,10 +167,10 @@ app.post('/user_sign_in', function(req, res) {
         res.send({ok:false, message:'未注册'})
     }
 })
+
 app.post('/user_sign_in/sms', function(req, res) {
     let phone = req.body.phone
-    let path = './data/today.json'
-    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+    // let u =
     if (data[phone]) {
         User[phone] = {}
         User[phone].sign_in_sms = Mer.sms()
@@ -254,6 +264,19 @@ app.use((err, req, res, next) => {
     res.send('错误500')
 })
 
+let path = './data/today.json'
+let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+let o = {}
+for (let phone in data) {
+    let sea_id = Date.now()
+    while (o[sea_id]) {
+        sea_id = Date.now()
+    }
+    data[phone]['sea_id'] = sea_id
+    o[sea_id] = data[phone]
+}
+let json =  JSON.stringify(o, null, 2)
+let err  = fs.writeFileSync(path, json, 'utf8')
 // listen 函数监听端口
 let server = app.listen(8001, '0.0.0.0', function () {
     let ip = server.address().address
