@@ -39,7 +39,7 @@ const Mer = {
         let data = JSON.parse(fs.readFileSync(path, 'utf8'))
         for(let id in data) {
             let e = data[id]
-            if (e.phone == phone) {
+            if (e[key] == val) {
                 return e
             }
         }
@@ -102,9 +102,8 @@ app.get('/', (req, res) => {
 // 验证码
 app.post('/user_sms', function(req, res) {
     let phone = req.body.phone
-    let path = './data/today.json'
-    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
-    if (data[phone]) {
+    let u = Mer.search('phone', phone)
+    if (u) {
         res.send({ok:false, message:'已注册，请登录'})
     } else {
         User[phone] = {}
@@ -170,8 +169,8 @@ app.post('/user_sign_in', function(req, res) {
 
 app.post('/user_sign_in/sms', function(req, res) {
     let phone = req.body.phone
-    // let u =
-    if (data[phone]) {
+    let u = Mer.search('phone', phone)
+    if (u) {
         User[phone] = {}
         User[phone].sign_in_sms = Mer.sms()
         // 发送短信
@@ -198,11 +197,10 @@ app.post('/user_sign_in/sms', function(req, res) {
 app.post('/infocenter', function(req, res) {
     let phone = req.body.phone
     let sms = req.body.sms
-    let path = './data/today.json'
-    let data = JSON.parse(fs.readFileSync(path, 'utf8'))
-    if (data[phone]) {
+    let u = Mer.search('phone', phone)
+    if (u) {
         if (User[phone] && User[phone].sign_in_sms == sms) {
-            res.send({ok:true, data:data[phone], message:'登陆成功'})
+            res.send({ok:true, data:u, message:'登陆成功'})
         } else {
             res.send({ok:false, message:'验证码错误'})
         }
@@ -264,19 +262,23 @@ app.use((err, req, res, next) => {
     res.send('错误500')
 })
 
-let path = './data/today.json'
-let data = JSON.parse(fs.readFileSync(path, 'utf8'))
-let o = {}
-for (let phone in data) {
-    let sea_id = Date.now()
-    while (o[sea_id]) {
-        sea_id = Date.now()
-    }
-    data[phone]['sea_id'] = sea_id
-    o[sea_id] = data[phone]
-}
-let json =  JSON.stringify(o, null, 2)
-let err  = fs.writeFileSync(path, json, 'utf8')
+
+// 用户更新
+// let path = './data/today.json'
+// let data = JSON.parse(fs.readFileSync(path, 'utf8'))
+// let o = {}
+// for (let phone in data) {
+//     let sea_id = Date.now()
+//     while (o[sea_id]) {
+//         sea_id = Date.now()
+//     }
+//     data[phone]['sea_id'] = sea_id
+//     o[sea_id] = data[phone]
+// }
+// let json =  JSON.stringify(o, null, 2)
+// let err  = fs.writeFileSync(path, json, 'utf8')
+
+
 // listen 函数监听端口
 let server = app.listen(8001, '0.0.0.0', function () {
     let ip = server.address().address
