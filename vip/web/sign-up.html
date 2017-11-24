@@ -105,7 +105,7 @@ $('.btn-login').on('click', function() {
     if (Sea.form.sign_in === false) {
         Sea.form.sign_in = true
         Sea.Ajax({
-            url: 'http://li-flower.com:8001/user_login',
+            url: 'http://li-flower.com:8001/user_sign_up',
             data: o,
         }).then(res => {
             Sea.form.sign_in = false
@@ -122,14 +122,4 @@ $('.btn-login').on('click', function() {
         })
     }
 })
-
-o = {}
-for(let i = 0; i < 100; i++) {
-    let e = Date.now()
-    if (o[e]) {
-        log(e,'错误')
-    } else {
-        o[e] = {}
-    }
-}
 </script>

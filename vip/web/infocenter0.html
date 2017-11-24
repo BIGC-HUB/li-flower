@@ -66,6 +66,7 @@ let wx_sign = function() {
                     $('#u-head')[0].src = data.headimgurl
                     $('#u-name')[0].value = data.nickname
                     $('#u-phone')[0].innerText = data.nickname
+                    Sea.form = Object.assign({}, data, Sea.form)
                     let temp = {
                         '1': '先生',
                         '2': '女士',

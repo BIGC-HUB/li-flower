@@ -170,6 +170,7 @@
         width: 44px;
     }
     .save {
+        padding-top: 10px;
         display: flex;
         justify-content: space-between;
         width: 400px;
@@ -214,14 +215,14 @@
         <div class="sign">
             <div class="seabox">
                 <text>姓名：</text>
-                <input id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
+                <input disabled id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
             </div>
             <div class="seabox">
                 <text>地址：</text>
                 <div class="sign-address">
-                    <select id="loc_province"></select>
-                    <select id="loc_city"></select>
-                    <select id="loc_town"></select>
+                    <select id="loc_province" disabled></select>
+                    <select id="loc_city" disabled></select>
+                    <select id="loc_town" disabled></select>
                 </div>
             </div>
             <div class="seabox">
@@ -234,9 +235,9 @@
             </div>
         </div>
         <div class="save">
-            <btn id="#bianji">编辑</btn>
+            <btn id="bianji">编辑</btn>
             <span></span>
-            <btn id="#baocun">保存</btn>
+            <btn id="baocun">保存</btn>
         </div>
     </div>
 </div>
