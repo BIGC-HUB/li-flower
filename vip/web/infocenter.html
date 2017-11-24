@@ -79,9 +79,12 @@ let wx_sign = function() {
                             this.style = ''
                         }
                     })
+                    // 微信注册
                     Sea.Ajax({
                         url: '/user_sign_up',
-                        data: data,
+                        data: {
+                            wx: data,
+                        }
                     }).then(res => {
                         log(res)
                     })

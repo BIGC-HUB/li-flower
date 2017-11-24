@@ -128,6 +128,7 @@ app.post('/user_sms', function(req, res) {
     }
 })
 app.post('/user_sign_up', function(req, res) {
+    log(req.body)
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (req.body.wx) {
