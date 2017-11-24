@@ -30,6 +30,7 @@ $('#baocun').on('click', function() {
             let data = JSON.parse(res)
             if (data.ok) {
                 alert(data.message)
+                $('#bianji').click()
             } else {
                 alert('保存失败')
             }
