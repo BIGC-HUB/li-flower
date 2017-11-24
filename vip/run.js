@@ -128,7 +128,6 @@ app.post('/user_sms', function(req, res) {
     }
 })
 app.post('/user_sign_up', function(req, res) {
-    log(req.body)
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (req.body.wx) {
@@ -172,6 +171,25 @@ app.post('/user_sign_up', function(req, res) {
         return;
     } else {
         res.send({ok:true, message:'注册成功'})
+        return;
+    }
+})
+app.post('/user_save', function(req, res) {
+    let sea_id = req.body.sea_id
+    let path = './data/today.json'
+    let users = JSON.parse(fs.readFileSync(path, 'utf8'))
+    if (users[sea_id]) {
+        users[sea_id] = object.assign({}, users[sea_id], req.body)
+    }
+    let json =  JSON.stringify(users, null, 2)
+    let date =  Mer.time()
+    let err  = fs.writeFileSync(`./data/backup/${date}.json`, json, 'utf8')
+    let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
+    if (err && err2) {
+        res.send({ok:false, message:'写入失败'})
+        return;
+    } else {
+        res.send({ok:true, message:'写入成功'})
         return;
     }
 })

@@ -34,6 +34,8 @@ $('#baocun').on('click', function() {
                 alert('保存失败')
             }
         })
+    } else {
+        alert('尚未修改')
     }
 })
 $('#bianji').on('click', function() {
