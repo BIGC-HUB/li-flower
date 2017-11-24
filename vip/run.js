@@ -179,7 +179,7 @@ app.post('/user_save', function(req, res) {
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (users[sea_id]) {
-        users[sea_id] = object.assign({}, users[sea_id], req.body)
+        users[sea_id] = Object.assign({}, users[sea_id], req.body)
     }
     let json =  JSON.stringify(users, null, 2)
     let date =  Mer.time()
