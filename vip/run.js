@@ -127,29 +127,51 @@ app.post('/user_sms', function(req, res) {
         })
     }
 })
-app.post('/user_login', function(req, res) {
-    let phone = req.body.phone
+app.post('/user_sign_up', function(req, res) {
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
-    if (users[phone]) {
-        res.send({ok:false, message:'已注册，请登录'})
-    } else {
-        if (User[phone].sms === req.body.phone_sms) {
-            let date = Mer.time()
-            users[phone] = req.body
-            let json =  JSON.stringify(users, null, 2)
-            let err  = fs.writeFileSync(`./data/backup/${date}.json`, json, 'utf8')
-            let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
-            if (err && err2) {
-                res.send({ok:false, message:'写入失败'})
-                return;
-            } else {
-                res.send({ok:true, message:'注册成功'})
-                return;
-            }
-        } else {
-            res.send({ok:false, message:'验证码错误'})
+    if (req.body.wx) {
+        let o = req.body.wx
+        let sea_id = Date.now()
+        while (users[sea_id]) {
+            sea_id = Date.now()
         }
+        users[sea_id] = {
+            "sms": false,
+            "sex": o.sex,
+            "sea_id": sea_id,
+            "head": o.headimgurl,
+            "name": o.nickname,
+            "unionid": o.unionid,
+            "openid": o.openid,
+        }
+    } else {
+        let phone = req.body.phone
+        let u = Mer.search('phone', phone)
+        if (u) {
+            res.send({ok:false, message:'已注册，请登录'})
+        } else {
+            if (User[phone].sms === req.body.phone_sms) {
+                let sea_id = Date.now()
+                while (users[sea_id]) {
+                    sea_id = Date.now()
+                }
+                users[sea_id] = req.body
+            } else {
+                res.send({ok:false, message:'验证码错误'})
+            }
+        }
+    }
+    let json =  JSON.stringify(users, null, 2)
+    let date =  Mer.time()
+    let err  = fs.writeFileSync(`./data/backup/${date}.json`, json, 'utf8')
+    let err2 = fs.writeFileSync('./data/today.json', json, 'utf8')
+    if (err && err2) {
+        res.send({ok:false, message:'写入失败'})
+        return;
+    } else {
+        res.send({ok:true, message:'注册成功'})
+        return;
     }
 })
 app.post('/user_sign_in', function(req, res) {
