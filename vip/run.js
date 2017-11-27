@@ -132,11 +132,16 @@ app.post('/user_sign_up', function(req, res) {
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
     if (req.body.wx) {
         let o = req.body.wx
+        let u = Mer.search('unionid', o.unionid)
         let sea_id = Date.now()
-        while (users[sea_id]) {
-            sea_id = Date.now()
+        if (u) {
+            sea_id = u.sea_id
+        } else {
+            while (users[sea_id]) {
+                sea_id = Date.now()
+            }
         }
-        users[sea_id] = {
+        let temp = {
             "sms": false,
             "sex": o.sex,
             "sea_id": sea_id,
@@ -145,6 +150,7 @@ app.post('/user_sign_up', function(req, res) {
             "unionid": o.unionid,
             "openid": o.openid,
         }
+        users[sea_id] = Object.assign({}, temp, u)
     } else {
         let phone = req.body.phone
         let u = Mer.search('phone', phone)
@@ -170,7 +176,11 @@ app.post('/user_sign_up', function(req, res) {
         res.send({ok:false, message:'写入失败'})
         return;
     } else {
-        res.send({ok:true, message:'注册成功'})
+        res.send({
+            ok:true,
+            data: users,
+            message:'写入成功',
+        })
         return;
     }
 })
