@@ -130,10 +130,11 @@ app.post('/user_sms', function(req, res) {
 app.post('/user_sign_up', function(req, res) {
     let path = './data/today.json'
     let users = JSON.parse(fs.readFileSync(path, 'utf8'))
+    let sea_id
     if (req.body.wx) {
         let o = req.body.wx
         let u = Mer.search('unionid', o.unionid)
-        let sea_id = Date.now()
+        sea_id = Date.now()
         if (u) {
             sea_id = u.sea_id
         } else {
@@ -158,7 +159,7 @@ app.post('/user_sign_up', function(req, res) {
             res.send({ok:false, message:'已注册，请登录'})
         } else {
             if (User[phone].sms === req.body.phone_sms) {
-                let sea_id = Date.now()
+                sea_id = Date.now()
                 while (users[sea_id]) {
                     sea_id = Date.now()
                 }
