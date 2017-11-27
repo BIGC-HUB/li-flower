@@ -178,7 +178,7 @@ app.post('/user_sign_up', function(req, res) {
     } else {
         res.send({
             ok:true,
-            data: users,
+            data: users[sea_id],
             message:'写入成功',
         })
         return;
