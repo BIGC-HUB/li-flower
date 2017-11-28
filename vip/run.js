@@ -151,7 +151,11 @@ app.post('/user_sign_up', function(req, res) {
             "unionid": o.unionid,
             "openid": o.openid,
         }
-        users[sea_id] = Object.assign({}, temp, u)
+        if (u) {
+            users[sea_id] = Object.assign({}, u, temp)
+        } else {
+            users[sea_id] = temp
+        }
     } else {
         let phone = req.body.phone
         let u = Mer.search('phone', phone)

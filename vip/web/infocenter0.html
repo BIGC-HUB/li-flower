@@ -88,6 +88,7 @@ let wx_sign = function() {
                         }
                     }).then(res => {
                         log(res)
+                        localStorage.removeItem('state')
                     })
                 })
             })
