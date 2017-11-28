@@ -28,12 +28,12 @@ let phone_sign = function() {
                     }
                 })
             } else {
-                alert('登录失败，请重新登陆')
+                alert(data.message)
                 window.location = '/sign-in'
             }
         })
     } else {
-        alert('登录失败，请重新登陆')
+        alert('请重新登陆')
         window.location = '/sign-in'
     }
 }

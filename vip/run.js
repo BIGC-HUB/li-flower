@@ -107,13 +107,13 @@ app.post('/user_sms', function(req, res) {
         res.send({ok:false, message:'已注册，请登录'})
     } else {
         User[phone] = {}
-        User[phone].sms = Mer.sms()
+        User[phone].sign_in_sms = Mer.sms()
         // 发送短信
         Mer.smsClient.sendSMS({
             PhoneNumbers: phone,
             SignName: '花开福田生命美学',
             TemplateCode: 'SMS_108985003',
-            TemplateParam: `{"code":"${User[phone].sms}","product":"云通信"}`
+            TemplateParam: `{"code":"${User[phone].sign_in_sms}","product":"云通信"}`
         }).then(function (data) {
             let {Code} = data
             if (Code === 'OK') {
@@ -158,7 +158,7 @@ app.post('/user_sign_up', function(req, res) {
         if (u) {
             res.send({ok:false, message:'已注册，请登录'})
         } else {
-            if (User[phone].sms === req.body.phone_sms) {
+            if (User[phone].sign_in_sms === req.body.phone_sms) {
                 sea_id = Date.now()
                 while (users[sea_id]) {
                     sea_id = Date.now()
