@@ -1,83 +1,43 @@
-<link href="http://li-flower.com/sign-up/css/common.css" rel="stylesheet"/>
-<link href="http://li-flower.com/sign-up/css/select2.css" rel="stylesheet"/>
-<link href="http://li-flower.com/sign-up/css/myself.css" rel="stylesheet"/>
 <style>
+    #main-wrapper {
+        background-color: #f5f5f5;
+    }
     btn {
         cursor: pointer;
     }
-    .jt {
-        width: 10px;
-        height: 10px;
-        background: black;
-        transform: rotate(-45deg);
-        margin-right: 15px;
-    }
-    .jt .jt-white {
-        margin-left: -1px;
-        margin-top: -1px;
-        width: 80%;
-        height: 80%;
-        background: #FFF;
-    }
-    #box {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    #box seahr {
-        display: block;
-        height: 1px;
-        background: #d1d1d1;
-        margin-bottom: 20px;
-    }
-    #box .left {
-        background: white;
-        margin-right: 32px;
-    }
-    #box .head {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        width: 304px;
-        height: 181px;
-    }
-    #box .head img {
-        width: 82px;
-        margin-bottom: 27px;
-        border-radius: 50%;
-    }
-    #box .left btn {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14.8px;
-        height: 52px;
-        background: #d2d2d2;
-    }
-    #box btn text {
+    btn text {
         width: 75%;
     }
-    #box btn .line {
+    btn .line {
         width: 7px;
         height: 100%;
         background: #141414;
     }
-    #box .right {
+    .sea_right {
+        background: white;
+        width: 100%;
+    }
+    .head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .head img {
+        width: 82px;
+        margin-bottom: 27px;
+        border-radius: 50%;
+    }
+    .sea_left {
         display: flex;
         align-items: center;
         flex-direction: column;
-
-        width: 839px;
-        height: 568px;
         background: white;
     }
-    #box .right t {
+    .sea_left t {
         margin: 29px 0 36px 0;
         font-size: 22.23px;
     }
-</style>
-<style>
     .sign-box {
         width: 385px;
         margin-right: 10%;
@@ -193,7 +153,6 @@
     }
     #exit {
         width: 100%;
-        margin-top: 51px;
         height: 46px;
         font-size: 18px;
         background: #787878;
@@ -201,63 +160,45 @@
         border-style: none;
     }
 </style>
-<div id="box">
-    <div class="left">
-        <div class="head">
-            <img id='u-head' src="http://li-flower.com/wp-content/uploads/2017/11/user_head.png">
-            <text id="u-phone">手机号码</text>
+
+<div class="sea_left">
+    <t>个人信息</t>
+    <div class="sign">
+        <div class="seabox">
+            <text>姓名：</text>
+            <input disabled id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
         </div>
-        <seahr></seahr>
-        <btn>
-            <div class="line"></div>
-            <text>个人信息</text>
-            <div class="jt">
-                <div class="jt-white"></div>
+        <div class="seabox">
+            <text>地址：</text>
+            <div class="sign-address">
+                <select id="loc_province" disabled></select>
+                <select id="loc_city" disabled></select>
+                <select id="loc_town" disabled></select>
             </div>
-        </btn>
-        <btn>
-            <div class="line"></div>
-            <text>账户安全</text>
-            <div class="jt">
-                <div class="jt-white"></div>
+        </div>
+        <div class="seabox">
+            <text>性别：</text>
+            <div id="u-sex" class="sign-sex">
+                <btn>先生</btn>
+                <span></span>
+                <btn>女士</btn>
             </div>
-        </btn>
-        <div class="exit">
-            <button id="exit" type="button">退　出</button>
         </div>
     </div>
-    <div class="right">
-        <t>个人信息</t>
-        <div class="sign">
-            <div class="seabox">
-                <text>姓名：</text>
-                <input disabled id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
-            </div>
-            <div class="seabox">
-                <text>地址：</text>
-                <div class="sign-address">
-                    <select id="loc_province" disabled></select>
-                    <select id="loc_city" disabled></select>
-                    <select id="loc_town" disabled></select>
-                </div>
-            </div>
-            <div class="seabox">
-                <text>性别：</text>
-                <div id="u-sex" class="sign-sex">
-                    <btn>先生</btn>
-                    <span></span>
-                    <btn>女士</btn>
-                </div>
-            </div>
-        </div>
-        <div class="save">
-            <btn id="bianji">编辑</btn>
-            <span></span>
-            <btn id="baocun">保存</btn>
-        </div>
+    <div class="save">
+        <btn id="bianji">编辑</btn>
+        <span></span>
+        <btn id="baocun">保存</btn>
     </div>
 </div>
-<script src="http://li-flower.com/sign-up/js/area.js"></script>
-<script src="http://li-flower.com/sign-up/js/location.js"></script>
-<script src="http://li-flower.com/sign-up/js/select2.js"></script>
-<script src="http://li-flower.com/sign-up/js/select2_locale_zh-CN.js"></script>
+
+<div class="sea_right">
+    <div class="head">
+        <img id='u-head' src="http://li-flower.com/wp-content/uploads/2017/11/user_head.png">
+        <text id="u-phone">手机号码</text>
+    </div>
+    <seahr></seahr>
+    <div class="exit">
+        <button id="exit" type="button">退　出</button>
+    </div>
+</div>
