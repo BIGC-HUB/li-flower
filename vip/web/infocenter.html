@@ -29,13 +29,14 @@
         border-radius: 50%;
     }
     .sea_left {
+        padding: 25px;
         display: flex;
         align-items: center;
         flex-direction: column;
         background: white;
     }
     .sea_left t {
-        margin: 29px 0 36px 0;
+        margin: 4px 0 36px 0;
         font-size: 22.23px;
     }
     .sign-box {
@@ -44,10 +45,12 @@
         margin-left: 10%;
     }
     .sign {
+        padding: 0;
         text-align: center;
         background: white;
-        padding: 25px;
         color: #838383;
+        width: 100%;
+        max-width: 351px;
     }
     .sign .seabox {
         display: flex;
@@ -122,21 +125,17 @@
         line-height: initial;
     }
     .sign-address, .seabox .name, .sign-sex {
-        width: 351px;
-    }
-    .seabox text {
-        margin-right: 10px;
-        color: black;
-        width: 44px;
+        width: 100%;
     }
     .save {
         padding-top: 40px;
         display: flex;
         justify-content: space-between;
-        width: 400px;
+        width: 100%;
     }
     .save btn {
-        width: 170px;
+        width: 100%;
+        max-width: 351px;
         border: 1px solid;
         height: 36px;
         display: flex;
@@ -146,6 +145,10 @@
     .save btn:hover {
         background: #141414;
         color: snow;
+    }
+    .save span {
+        display: inline-block;
+        width: 10px;
     }
     .exit {
         padding-top: 51px;
@@ -165,11 +168,9 @@
     <t>个人信息</t>
     <div class="sign">
         <div class="seabox">
-            <text>姓名：</text>
             <input disabled id="u-name" class="name" maxlength="30" placeholder="中文" type="text" name="" value="">
         </div>
         <div class="seabox">
-            <text>地址：</text>
             <div class="sign-address">
                 <select id="loc_province" disabled></select>
                 <select id="loc_city" disabled></select>
@@ -177,7 +178,6 @@
             </div>
         </div>
         <div class="seabox">
-            <text>性别：</text>
             <div id="u-sex" class="sign-sex">
                 <btn>先生</btn>
                 <span></span>
@@ -197,7 +197,6 @@
         <img id='u-head' src="http://li-flower.com/wp-content/uploads/2017/11/user_head.png">
         <text id="u-phone">手机号码</text>
     </div>
-    <seahr></seahr>
     <div class="exit">
         <button id="exit" type="button">退　出</button>
     </div>
