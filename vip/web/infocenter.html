@@ -2,13 +2,14 @@
     #main-wrapper {
         background-color: #f5f5f5;
     }
-    btn {
+    .btn {
+        border-radius: 4px;
         cursor: pointer;
     }
-    btn text {
+    .btn text {
         width: 75%;
     }
-    btn .line {
+    .btn .line {
         width: 7px;
         height: 100%;
         background: #141414;
@@ -22,6 +23,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        padding: 29px;
     }
     .head img {
         width: 82px;
@@ -44,13 +46,15 @@
         margin-right: 10%;
         margin-left: 10%;
     }
+    .sign, .save {
+        width: 100%;
+        max-width: 451px;
+    }
     .sign {
         padding: 0;
         text-align: center;
         background: white;
         color: #838383;
-        width: 100%;
-        max-width: 351px;
     }
     .sign .seabox {
         display: flex;
@@ -58,12 +62,13 @@
         align-items: baseline;
     }
     .sign input {
+        border-radius: 4px;
         box-sizing: border-box;
         height: 40px;
         border: 1px solid #787878;
         padding: 5px;
     }
-    .sign button {
+    .sign .btn {
         background: #141414;
         color: white;
         border-radius: 3px;
@@ -82,7 +87,7 @@
         align-items: center;
         margin: 28px 0;
     }
-    .sign-sex btn {
+    .sign-sex .btn {
         width: 100%;
         border: 1px solid;
         height: 36px;
@@ -92,7 +97,7 @@
     }
     .sign-sex span {
         display: inline-block;
-        width: 10px;
+        width: 17px;
     }
     .sign-address {
         display: flex;
@@ -108,7 +113,7 @@
     }
     .select2-container .select2-choice {
         background: white;
-        border-radius: 0;
+        border-radius: 4px;
         color: #838383;
         border: 1px solid;
         height: 36px;
@@ -131,9 +136,8 @@
         padding-top: 40px;
         display: flex;
         justify-content: space-between;
-        width: 100%;
     }
-    .save btn {
+    .save .btn {
         width: 100%;
         max-width: 351px;
         border: 1px solid;
@@ -142,13 +146,13 @@
         justify-content: center !important;
         align-items: center;
     }
-    .save btn:hover {
+    .save .btn:hover {
         background: #141414;
         color: snow;
     }
     .save span {
         display: inline-block;
-        width: 10px;
+        width: 17px;
     }
     .exit {
         padding-top: 51px;
@@ -179,16 +183,16 @@
         </div>
         <div class="seabox">
             <div id="u-sex" class="sign-sex">
-                <btn>先生</btn>
+                <button class="btn">先生</button>
                 <span></span>
-                <btn>女士</btn>
+                <button class="btn">女士</button>
             </div>
         </div>
     </div>
     <div class="save">
-        <btn id="bianji">编辑</btn>
+        <button class="btn" id="bianji">编辑</button>
         <span></span>
-        <btn id="baocun">保存</btn>
+        <button class="btn" id="baocun">保存</button>
     </div>
 </div>
 
