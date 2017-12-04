@@ -167,6 +167,7 @@ app.post('/user_sign_up', function(req, res) {
                 while (users[sea_id]) {
                     sea_id = Date.now()
                 }
+                req.body['sea_id'] = sea_id
                 users[sea_id] = req.body
             } else {
                 res.send({ok:false, message:'验证码错误'})

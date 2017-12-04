@@ -1,4 +1,35 @@
 <script>
+let init = function(o) {
+    log(o)
+    if (o.unionid) {
+        // 微信
+        $('#u-head')[0].src = o.head
+        $('#u-name')[0].value = o.name
+        $('#u-phone')[0].innerText = o.name
+    } else {
+        // 手机
+        $('#u-phone').text(o.phone)
+        $('#u-name').val(o.name || '')
+    }
+    // 地址
+    if (o.province) {
+        $('#loc_province').select2('data').text = o.province
+        $('#select2-chosen-1').text(o.province)
+        $('#loc_city').select2('data').text = o.city
+        $('#select2-chosen-2').text(o.city)
+        $('#loc_town').select2('data').text = o.town
+        $('#select2-chosen-3').text(o.town)
+    }
+    // 性别
+    $('.sign-sex btn').each(function(i, e) {
+        if (e.innerText == o.sex) {
+            this.style.background = '#141414'
+            this.style.color = 'white'
+        } else {
+            this.style = ''
+        }
+    })
+}
 let phone_sign = function() {
     if (window.localStorage.u) {
         let u = JSON.parse(window.localStorage.u)
@@ -10,23 +41,7 @@ let phone_sign = function() {
             if (data.ok) {
                 let o = data.data
                 Sea.form = Object.assign({}, o, Sea.form)
-                $('#u-phone').text(o.phone)
-                $('#u-name').val(o.name || '')
-                $('#loc_province').select2('data').text = o.province
-                $('#select2-chosen-1').text(o.province)
-                $('#loc_city').select2('data').text = o.city
-                $('#select2-chosen-2').text(o.city)
-                $('#loc_town').select2('data').text = o.town
-                $('#select2-chosen-3').text(o.town)
-
-                $('.sign-sex btn').each(function(i, e) {
-                    if (e.innerText == o.sex) {
-                        this.style.background = '#141414'
-                        this.style.color = 'white'
-                    } else {
-                        this.style = ''
-                    }
-                })
+                init(Sea.form)
             } else {
                 alert(data.message)
                 window.location = '/sign-in'
@@ -63,23 +78,11 @@ let wx_sign = function() {
                     }
                 }).then(res => {
                     let data = JSON.parse(res)
-                    $('#u-head')[0].src = data.headimgurl
-                    $('#u-name')[0].value = data.nickname
-                    $('#u-phone')[0].innerText = data.nickname
-                    Sea.form = Object.assign({}, data, Sea.form)
                     let temp = {
                         '1': '先生',
                         '2': '女士',
                     }
                     data.sex = temp[data.sex]
-                    $('.sign-sex btn').each(function(i, e) {
-                        if (e.innerText == data.sex) {
-                            this.style.background = '#141414'
-                            this.style.color = 'white'
-                        } else {
-                            this.style = ''
-                        }
-                    })
                     // 微信注册
                     Sea.Ajax({
                         url: 'http://li-flower.com:8001/user_sign_up',
@@ -87,7 +90,11 @@ let wx_sign = function() {
                             wx: data,
                         }
                     }).then(res => {
-                        log(res)
+                        let data = JSON.parse(res)
+                        if (data.ok) {
+                            Sea.form = Object.assign({}, data.data, Sea.form)
+                            init(Sea.form)
+                        }
                         localStorage.removeItem('state')
                     })
                 })
@@ -101,3 +108,170 @@ let wx_sign = function() {
 }
 wx_sign()
 </script>
+
+
+<style>
+    #main-wrapper {
+        background-color: #f5f5f5;
+    }
+    btn {
+        cursor: pointer;
+    }
+    btn text {
+        width: 75%;
+    }
+    btn .line {
+        width: 7px;
+        height: 100%;
+        background: #141414;
+    }
+    .sea_right {
+        background: white;
+        width: 100%;
+    }
+    .head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 29px;
+    }
+    .head img {
+        width: 82px;
+        margin-bottom: 27px;
+        border-radius: 50%;
+    }
+    .sea_left {
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background: white;
+    }
+    .sea_left t {
+        margin: 4px 0 36px 0;
+        font-size: 22.23px;
+    }
+    .sign-box {
+        width: 385px;
+        margin-right: 10%;
+        margin-left: 10%;
+    }
+    .sign, .save {
+        width: 100%;
+        max-width: 451px;
+    }
+    .sign {
+        padding: 0;
+        text-align: center;
+        background: white;
+        color: #838383;
+    }
+    .sign .seabox {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    .sign input {
+        box-sizing: border-box;
+        height: 40px;
+        border: 1px solid #787878;
+        padding: 5px;
+    }
+    .sign btn {
+        border-radius: 3px;
+        border: 0;
+        height: 40px;
+    }
+    .sign .name {
+        margin-bottom: 28px;
+    }
+    .sign-sex {
+        width: 100%;
+        margin-top: 28px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 28px 0;
+    }
+    .sign-sex btn {
+        width: 100%;
+        border: 1px solid;
+        height: 36px;
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .sign-sex span {
+        display: inline-block;
+        width: 17px;
+    }
+    .sign-address {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .sign-address .select2-container {
+        width: 33.333333%;
+        margin-left: 10px;
+    }
+    .select2-container:first-child {
+        margin-left: 0;
+    }
+    .select2-container .select2-choice {
+        background: white;
+        border-radius: 4px;
+        color: #838383;
+        border: 1px solid;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .select2-container .select2-choice .select2-arrow {
+        background: white;
+        border-radius: 0;
+        border: 1px solid transparent;
+    }
+    .select2-search input {
+        line-height: initial;
+    }
+    .sign-address, .seabox .name, .sign-sex {
+        width: 100%;
+    }
+    .save {
+        padding-top: 40px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .save btn {
+        width: 100%;
+        max-width: 351px;
+        border: 1px solid;
+        height: 36px;
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .save btn:hover {
+        background: #141414;
+        color: snow;
+    }
+    .save span {
+        display: inline-block;
+        width: 17px;
+    }
+    .exit {
+        padding-top: 51px;
+        background: whitesmoke;
+    }
+    #exit {
+        width: 100%;
+        height: 46px;
+        font-size: 18px;
+        background: #787878;
+        color: snow;
+        border-style: none;
+    }
+</style>
