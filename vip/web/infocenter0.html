@@ -2,6 +2,7 @@
 let init = function(o) {
     log(o)
     if (o.unionid) {
+        localStorage.removeItem('u')
         // 微信
         $('#u-head')[0].src = o.head
         $('#u-name')[0].value = o.name
@@ -23,8 +24,7 @@ let init = function(o) {
     // 性别
     $('.sign-sex btn').each(function(i, e) {
         if (e.innerText == o.sex) {
-            this.style.background = '#141414'
-            this.style.color = 'white'
+            this.style.background = '#f4f4f4'
         } else {
             this.style = ''
         }
@@ -152,6 +152,11 @@ wx_sign()
         margin: 4px 0 36px 0;
         font-size: 22.23px;
     }
+    .sea_left input {
+        background: #f4f4f4;
+        border-radius: 4px;
+        border-color: #d8d8d8 !important;
+    }
     .sign-box {
         width: 385px;
         margin-right: 10%;
@@ -197,11 +202,12 @@ wx_sign()
     }
     .sign-sex btn {
         width: 100%;
-        border: 1px solid;
+        border: 1px solid #d2d2d2;
         height: 36px;
         display: flex;
         justify-content: center !important;
         align-items: center;
+        color: #787878;
     }
     .sign-sex span {
         display: inline-block;
@@ -248,15 +254,13 @@ wx_sign()
     .save btn {
         width: 100%;
         max-width: 351px;
-        border: 1px solid;
         height: 36px;
         display: flex;
         justify-content: center !important;
         align-items: center;
-    }
-    .save btn:hover {
-        background: #141414;
-        color: snow;
+        border-radius: 4px;
+        border: 0;
+        background: #d2d2d2;
     }
     .save span {
         display: inline-block;

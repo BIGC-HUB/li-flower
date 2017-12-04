@@ -1,28 +1,47 @@
 <script>
+$('#bianji').css({
+    background: '#141414',
+    color: '#fff',
+})
 $('#baocun').on('click', function() {
-    let o = Sea.form
-    let d = {
-        '省份': true,
-        '地级市': true,
-        '市、县、区': true,
-    }
-    o.province = $('#loc_province').select2('data').text
-    o.city = $('#loc_city').select2('data').text
-    o.town = $('#loc_town').select2('data').text
-
-    o.phone = $('.sign .phone').val()
-    o.phone_sms = $('.sign .phone-sms').val()
-    o.name = $('.sign .name').val()
-    if (!o.name) {
-        alert('请输入姓名')
-        return;
-    }
-    if (d[o.province] || d[o.city] || d[o.town]) {
-        alert('请选择地址')
-        return;
-    }
-    // 发送 跨域 Ajax 请求
     if (Sea.bianji) {
+        $("#u-name, #u-sex btn").css('border-color', '')
+        $('.sign-sex btn').each((i, e) => {
+            if (e.style.background) {
+                e.style.background = '#f4f4f4'
+                e.style.color = ''
+            }
+        })
+        $('#baocun').removeAttr('style')
+        $('#bianji').css({
+            background: '#141414',
+            color: '#fff',
+        })
+        $('.sign-sex').off()
+        $('#u-name, #loc_province, #loc_city, #loc_town').attr('disabled', true)
+        Sea.bianji = false
+        let o = Sea.form
+        let d = {
+            '省份': true,
+            '地级市': true,
+            '市、县、区': true,
+        }
+        o.province = $('#loc_province').select2('data').text
+        o.city = $('#loc_city').select2('data').text
+        o.town = $('#loc_town').select2('data').text
+
+        o.phone = $('.sign .phone').val()
+        o.phone_sms = $('.sign .phone-sms').val()
+        o.name = $('.sign .name').val()
+        if (!o.name) {
+            alert('请输入姓名')
+            return;
+        }
+        if (d[o.province] || d[o.city] || d[o.town]) {
+            alert('请选择地址')
+            return;
+        }
+        // 发送 跨域 Ajax 请求
         Sea.Ajax({
             url: 'http://li-flower.com:8001/user_save',
             data: o,
@@ -30,22 +49,26 @@ $('#baocun').on('click', function() {
             let data = JSON.parse(res)
             if (data.ok) {
                 alert(data.message)
-                $('#bianji').click()
             } else {
                 alert('保存失败')
             }
         })
-    } else {
-        alert('尚未修改')
     }
 })
 $('#bianji').on('click', function() {
-    if (Sea.bianji) {
-        Sea.bianji = false
-        $('.sign-sex').off()
-        $('#u-name, #loc_province, #loc_city, #loc_town').attr('disabled', true)
-    } else {
-        Sea.bianji = true
+    if (!Sea.bianji) {
+        $("#u-name, #u-sex btn").css('border-color', '#838383')
+        $('.sign-sex btn').each((i, e) => {
+        	if (e.style.background) {
+        	    e.style.background = '#141414'
+                e.style.color = '#fff'
+        	}
+        })
+        $('#bianji').removeAttr('style')
+        $('#baocun').css({
+            background: '#141414',
+            color: '#fff',
+        })
         // disabled
         $('#u-name, #loc_province, #loc_city, #loc_town').removeAttr('disabled')
         $('.sign-sex').on('click', 'btn', function() {
@@ -55,6 +78,7 @@ $('#bianji').on('click', function() {
             // 性别
             Sea.form.sex = this.innerText
         })
+        Sea.bianji = true
     }
 })
 </script>
